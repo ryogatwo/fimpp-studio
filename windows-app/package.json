@@ -1,0 +1,20 @@
+{
+  "name": "fimpp-studio-windows",
+  "productName": "FiM++ Studio",
+  "version": "1.2.0",
+  "description": "Standalone FiM++ letter editor, runner, and offline coding reference.",
+  "author": "RyogaTwo",
+  "license": "GPL-3.0-or-later",
+  "private": true,
+  "main": "app/main.cjs",
+  "scripts": {
+    "test": "node --test tests/*.test.cjs",
+    "build": "node scripts/build.cjs"
+  },
+  "devDependencies": {
+    "electron": "43.4.0",
+    "@electron/packager": "20.3.0",
+    "electron-builder": "26.15.3",
+    "extract-zip": "2.0.1"
+  }
+}

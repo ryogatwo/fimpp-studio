@@ -1,0 +1,43 @@
+{
+  "reference_sha256": "184fe2f4509eed326cfd7aaa39e9c5d4d0fc40c0c8fbe3e391b3e8d7a5839160",
+  "rebuilt_sha256": "d7523625397564be33d0a48ecf0c31423ba87b11c1f4af6832eae07407594e41",
+  "identical_application_classes": 96,
+  "identical_runtime_classes": 6945,
+  "java": "java version \"1.8.0_231\"\nJava(TM) SE Runtime Environment (build 1.8.0_231-b11)\nJava HotSpot(TM) 64-Bit Server VM (build 25.231-b11, mixed mode)\n",
+  "passed": [
+    "no arguments",
+    "multiple arguments",
+    "missing file",
+    "examples/99bottles.fimpp",
+    "examples/bf.fimpp",
+    "examples/busybeaver.fimpp",
+    "examples/eratosthenes.fimpp",
+    "examples/factor.fimpp",
+    "examples/factorials.fimpp",
+    "examples/fibonacci.fimpp",
+    "examples/fizzbuzz.fimpp",
+    "examples/fourth_power.fimpp",
+    "examples/gcd.fimpp",
+    "examples/hello.fimpp",
+    "examples/multiples.fimpp",
+    "examples/odd_even.fimpp",
+    "examples/quicksort.fimpp",
+    "examples/squared_cubed.fimpp",
+    "test/errors/book_read_page_nothing.fimpp",
+    "test/errors/book_read_page_zero.fimpp",
+    "test/errors/book_write_page_nothing.fimpp",
+    "test/errors/book_write_page_zero.fimpp",
+    "test/errors/inc_string.fimpp",
+    "test/errors/page_of_number.fimpp",
+    "test/errors/syntax.fimpp",
+    "test/compatibility/java interop.fimpp",
+    "test/compatibility/runtime hello.fimpp",
+    "upstream parser unit tests",
+    "PASS 69 postscript parser checks",
+    "postscript CLI execution (comments do not execute)"
+  ],
+  "skipped": [
+    "examples/gui_calculator.fimpp (interactive GUI)",
+    "examples/swing.fimpp (interactive GUI)"
+  ]
+}

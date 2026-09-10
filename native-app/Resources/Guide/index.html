@@ -1,0 +1,1113 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>FiM++ Coding Reference</title><style>
+:root{color-scheme:light dark;--bg:#faf9fc;--text:#252330;--muted:#767080;--line:#e4dfea;--code:#f0edf5;--accent:#7450a5}*{box-sizing:border-box}body{margin:0;font:13px/1.65 -apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text)}header{padding:20px 22px 14px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:2}.brand{font-weight:700;letter-spacing:.03em;color:var(--accent);margin-bottom:12px}input{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:8px;background:var(--code);color:var(--text);font:inherit}nav{display:flex;gap:6px;flex-wrap:wrap;padding:14px 22px;border-bottom:1px solid var(--line)}nav button{border:1px solid var(--line);border-radius:6px;background:transparent;color:var(--text);font:11px -apple-system,sans-serif;padding:5px 8px;cursor:pointer}nav button.active{background:var(--accent);border-color:var(--accent);color:white}main{padding:24px 22px 50px;max-width:920px;margin:auto}section{display:none}section.visible{display:block}h1{font-size:25px;line-height:1.2;font-weight:650;letter-spacing:-.5px;margin:6px 0 24px}h3{font-size:15px;line-height:1.35;margin:24px 0 10px}p{margin:8px 0 12px}.eyebrow{text-transform:uppercase;letter-spacing:1.4px;font-size:9px;color:var(--muted)}pre{position:relative;background:var(--code);border:1px solid var(--line);padding:14px;border-radius:9px;font:11px/1.7 ui-monospace,Menlo,monospace;white-space:pre;overflow:auto}code{font-family:ui-monospace,Menlo,monospace;font-size:.93em}p code{padding:2px 4px;background:var(--code);border-radius:3px}.bullet{padding-left:10px}.none{display:none;color:var(--muted)}.copy{float:right;border:0;background:var(--accent);color:white;border-radius:4px;font-size:10px;padding:3px 6px;cursor:pointer}section+section{margin-top:35px}footer{font-size:10px;color:var(--muted);border-top:1px solid var(--line);padding-top:18px;margin-top:30px}@media(prefers-color-scheme:dark){:root{--bg:#242229;--text:#e7e2ed;--muted:#a49aaa;--line:#403a48;--code:#302c37;--accent:#b99bdd}}
+:root[data-theme="light"]{color-scheme:light;--bg:#faf9fc;--text:#252330;--muted:#767080;--line:#e4dfea;--code:#f0edf5;--accent:#7450a5}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#242229;--text:#e7e2ed;--muted:#a49aaa;--line:#403a48;--code:#302c37;--accent:#b99bdd}
+</style><header><div class="brand">✦  THE LETTER WRITER’S GUIDE</div><input id="search" type="search" aria-label="Search reference" placeholder="Search commands, examples, or topics…" oninput="searchGuide(this.value)"></header><nav><button data-target="start" onclick="show('start')">Start here</button><button data-target="comments" onclick="show('comments')">Comments &amp; postscripts</button><button data-target="structure" onclick="show('structure')">Letter structure</button><button data-target="identifiers" onclick="show('identifiers')">Names &amp; identifiers</button><button data-target="types" onclick="show('types')">Types &amp; values</button><button data-target="assignment" onclick="show('assignment')">Variables &amp; books</button><button data-target="functions" onclick="show('functions')">Functions &amp; scope</button><button data-target="conditions" onclick="show('conditions')">Comparisons &amp; logic</button><button data-target="control" onclick="show('control')">Branches &amp; loops</button><button data-target="output" onclick="show('output')">Output &amp; other statements</button><button data-target="builtins" onclick="show('builtins')">Built-in functions</button><button data-target="java" onclick="show('java')">Java interoperability</button><button data-target="input" onclick="show('input')">Program input</button><button data-target="compatibility" onclick="show('compatibility')">Compatibility &amp; limits</button><button data-target="examples" onclick="show('examples')">Example letters</button><button data-target="credits" onclick="show('credits')">About &amp; licenses</button></nav><main><p class="none" id="no-results">No matching topic. Try “book”, “sum”, “function”, or “comment”.</p><section id="start"><div class="eyebrow">FiM++ coding reference</div><h1>Start here</h1><h3>Your first letter</h3>
+<p>Create a letter, write your code, and choose Run (⌘R). You can run before saving. The editor sends the current text to the interpreter; a running program keeps its snapshot while you continue editing.</p>
+<pre><code>Dear Princess Celestia: My first letter.
+
+Today I learned about greetings:
+    I said &quot;Hello, Equestria!&quot;.
+
+Your faithful student, Twilight Sparkle.
+P.S. A note to the reader, not part of the program.</code></pre>
+<h3>Create, open, and save</h3>
+<p>Launch and New Letter (⌘N) create a blank document. Choose an example from the Examples menu if you want a starting point. Open (⌘O) opens a .fimpp or .fpp UTF-8 text file. Save (⌘S) writes it; Save As (⇧⌘S) writes a new copy. Each letter has its own window, undo history, and console. Standard macOS document autosave and unsaved-change prompts apply. Use Edit → Find (⌘F) to find or replace text. View → Larger Text / Smaller Text changes the editor font. Straight quotes are preserved; macOS smart-quote substitution is disabled for code. View → Appearance offers Follow System, Light, and Dark. Your choice applies to the editor, console, and reference guide and is remembered after quitting. The Examples menu includes all 20 bundled letters and opens an editable copy, so you can experiment without modifying the bundled examples.</p>
+<h3>Run and stop</h3>
+<p>Run (⌘R) executes the editor text and shows output below it. Stop (⌘.) ends that run and its program windows. Run again after editing to use your changes. Each document can run independently. The working folder is the saved letter&#x27;s folder. An unsaved letter runs in a temporary folder. Relative file operations in Java interop use that working folder. The console caps output at 1 MB and stops a program that exceeds it. Input sends a line to programs that read standard input. End input sends EOF. Sparkle&#x27;s direct I heard/read/asked input commands are not part of this dialect; see Java interoperability for an input example.</p>
+<h3>Errors</h3>
+<p>Check output means the compiler reported a syntax/runtime error or the process failed. A parser location such as [7.12] means line 7, column 12. Go to error selects that line. The program&#x27;s own console text can also contain words like error; always read the details. Common mistakes: missing final punctuation, curly quotes, a function&#x27;s ending name not matching its starting name, and using Sparkle-only commands. Strings use straight double quotes. To embed a variable inside a string, use paired apostrophes, as described in Types.</p>
+<h3>What language does this app support?</h3>
+<p>FiM++ Studio includes the customized original FiM++ interpreter, with the postscript and regression fixes. This is not a complete Sparkle 1.0 implementation. The guide&#x27;s command sections describe the supported dialect. Compatibility explains the differences. Everything needed to edit, run, and read this guide is bundled. Internet access and a separate Java installation are not required. Programs you write may use Java APIs, including file or network access, when you ask them to.</p></section><section id="comments"><div class="eyebrow">FiM++ coding reference</div><h1>Comments &amp; postscripts</h1><h3>Postscript comments</h3>
+<pre><code>PS A note until the end of this line.
+PSS Another note.
+P.S.No space is required after a dotted marker.
+P.P.S.Standard repeated-P spelling.
+P.S.S.This spelling is also accepted.</code></pre>
+<p>Markers are case-insensitive. Each comment ends at a newline or end of file. Each new comment line needs its own marker. Postscripts may follow the signature or appear between statements. Markers inside strings remain text.</p>
+<h3>Parenthesized comments</h3>
+<pre><code>(A standalone comment, no extra punctuation needed)
+I said &quot;Hello&quot;. (A note after the statement)
+
+Dear Princess Celestia( and friends): A letter.</code></pre>
+<p>Parentheses comments may span lines and end at the first closing parenthesis. They do not nest. Parentheses inside quoted strings remain literal text.</p>
+<h3>Existing comment forms</h3>
+<pre><code>By the way, this is a standalone comment.
+I said &quot;Hello&quot;, because this is a comment.</code></pre>
+<p>The old By the way and because forms end at the required sentence punctuation. Prefer parentheses for comments containing multiple sentences.</p></section><section id="structure"><div class="eyebrow">FiM++ coding reference</div><h1>Letter structure</h1><h3>FIM++ program structure</h3>
+<p>FIM++ programs can have one of two structures:</p>
+<p class="bullet">• Main function contains functions inside (wrapped style).</p>
+<p class="bullet">• Functions precede the main function, and the main function, being the last one in the code, contains statements (C style).</p>
+<p>In all examples below, colons can be replaced with full stops, except after the word Celestia. Parts in braces {...} are optional.</p>
+<h3>Wrapped style:</h3>
+<p>Execution of the program will start from the function that has the same name as the main function. It will be called with no arguments.</p>
+<pre><code>Dear Princess Celestia: &lt;module identifier&gt; :
+
+Today I learned {about} &lt;identifier: main function name&gt;:
+
+    &lt;function declarations&gt;
+
+Your faithful student, &lt;identifier&gt;.</code></pre>
+<h3>C style</h3>
+<p>Execution of the program will start from the main function.</p>
+<pre><code>Dear Princess Celestia: &lt;module identifier&gt; :
+
+&lt;function declarations&gt;
+
+Today I learned {about} {&lt;identifier: main function name&gt;}:
+
+    &lt;statements&gt;
+
+Your faithful student, &lt;identifier&gt;.</code></pre>
+<h3>Postscript comments</h3>
+<p>After the signature, either program structure may include comments:</p>
+<pre><code>Your faithful student, Twilight Sparkle.
+PS This is a note.
+PSS This is another note.
+P.S.No space is required after a dotted marker.
+P.P.S.This is the spelling in the FiM++ 1.0 specification.</code></pre>
+<p>Comments end at a newline or end of file. Markers are case-insensitive and also work between statements or after statements on the same line. <code>P.S.S.</code>, additional <code>P.</code> prefixes, and undotted <code>PPS</code> are accepted too. Quoted text is not treated as a comment. Use a marker on each comment line.</p></section><section id="identifiers"><div class="eyebrow">FiM++ coding reference</div><h1>Names &amp; identifiers</h1><h3>FIM++ identifiers</h3>
+<p>A word is a sequence of ASCII letters, optionally containing at most one apostrophe and any number of hyphens somewhere in the middle. No other characters are allowed in the words. Unicode is not supported yet.</p>
+<p>In FIM++, any sequence of words can be an identifier, except of those containing one of the following reseved words:</p>
+<p>about, and, are, did, either, got, had, has, have, I, in, is, like, likes, made, me, my, of, on, only, or, today, was, were, what, when, with, yes</p>
+<p>The list above might grow in future releases. The only exception are module names and Java class names: they can contain whatever words you like.</p>
+<p>Identifiers are not case sensitive. Also, words a/an/the are stripped from the identifiers during the parsing phase (so identifiers &quot;the Cutie Mark Crusaders&quot; and &quot;CUTIE MARK CRUSADERS&quot; are considered identical).</p>
+<p>The following are all valid identifiers:</p>
+<pre><code>Twilight Sparkle
+Crackle&#x27;s cousin
+Rainbow Dash
+The Great-and-Powerful Trixie</code></pre>
+<p>And the following are not:</p>
+<pre><code>The Great and Powerful Trixie
+DJ-Pon3
+Flim &amp; Flam</code></pre></section><section id="types"><div class="eyebrow">FiM++ coding reference</div><h1>Types &amp; values</h1><h3>FIM++ type system</h3>
+<p>FIM++ has only several types. It&#x27;s not an object-oriented language yet, nor can it be called functional (although you can pass functions around). All assignments (both to variables and to function arguments) are by reference. It doesn&#x27;t matter much though, because arrays are the only mutable type as for now.</p>
+<h3>Numbers</h3>
+<p>Literal syntax:</p>
+<pre><code>1
+90
+seven
+the number 42
+the number five
+number 10</code></pre>
+<p>Only positive literals are supported as for now. Words work only from 0 to 12.</p>
+<h3>Strings</h3>
+<p>Literal syntax:</p>
+<pre><code>&quot;This is a string&quot;
+&quot;This string will have a a value of Applejack inserted at runtime: &#x27;Applejack&#x27;. See?&quot;</code></pre>
+<h3>Tuples</h3>
+<p>Tuples are formed in a way similar to the argument lists. Use &quot;only ...&quot; to create tuples with one element. They currently suck though, so there&#x27;s little use for them:</p>
+<pre><code>1, 2, and &quot;string&quot;
+Twilight, Rarity and Spike
+only 1</code></pre>
+<h3>Booleans</h3>
+<p>Literal syntax:</p>
+<pre><code>harmony
+chaos</code></pre>
+<p>You can&#x27;t use booleans directly in conditional expressions, so you can&#x27;t write &quot;When Spike: ...&quot;, you need to write &quot;When Spike was an element of harmony: ...&quot;</p>
+<p>Note: the &quot;literals&quot; above are actually defined as built-in global variables. You can redefine them, but good luck then!</p>
+<h3>Arrays</h3>
+<p>Arrays are dynamically growing lists of any kinds of values. They are indexed from one (not from zero!) If you try to write past the size, it will simply grow. If you try to read, you&#x27;ll get special value called nothing.</p>
+<h3>Nothing</h3>
+<p>This is the value that is returned from reading arrays from uninitialized cells and from some other places. It has no literal, but there are conditional expression that allow you to check against it.</p></section><section id="assignment"><div class="eyebrow">FiM++ coding reference</div><h1>Variables &amp; books</h1><h3>FIM++ expressions and assignment statements</h3>
+<p>In all examples below, parts in braces {...} are optional, and parts in parentheses separated by bars (...|...)are equivalent alternatives.</p>
+<p>FIM++ has many different constructs used for variable assignment.</p>
+<h3>Simple assignment</h3>
+<pre><code>Did you know that &lt;identifier: variable name&gt; (is|are|likes|like) &lt;expression&gt; ?</code></pre>
+<p>The expression can be an identifier or a literal. Tuple literals are allowed.</p>
+<h3>Assignment of a function call result</h3>
+<pre><code>&lt;identifier: variable name&gt; (did|made) &lt;identifier: function name&gt; of &lt;list of expressions&gt; .</code></pre>
+<p>The list cannot contain tuple literals.</p>
+<pre><code>&lt;identifier: variable name&gt; (did|made) &lt;identifier: function name&gt; of each of &lt;identifier: tuple-holding variable&gt; .</code></pre>
+<p>The tuple is deconstructed and its elements are passed as function arguments.</p>
+<p>If you don&#x27;t care about the function result, you can use keyword &quot;I&quot; (or words &quot;I also&quot;) as the variable name. In that case, you can also use &quot;caused&quot; instead of &quot;did&quot;/&quot;made&quot;.</p>
+<h3>Variable increment/decrement</h3>
+<pre><code>&lt;identifier: variable name&gt; got &lt;number literal&gt; more.
+
+&lt;identifier: variable name&gt; got &lt;number literal&gt; (less|fewer).</code></pre>
+<h3>Array cration/initialization</h3>
+<pre><code>{Today} I found a book (named|titled) &lt;identifier&gt; {today} .</code></pre>
+<h3>Array store</h3>
+<pre><code>On &lt;page expression&gt; of {the} {book} &lt;identifier&gt; I (wrote|scribbled|noted) {(what I knew about|about)} &lt;expression&gt; .</code></pre>
+<p>Page expression have any of the following forms:</p>
+<pre><code>1st page
+the 2nd page
+fifth page
+the tenth page
+page numbered by Rarity
+the page numbered by Rainbow Crash</code></pre>
+<h3>Array read</h3>
+<pre><code>On &lt;page expression&gt; of {the} {book} &lt;identifier&gt; I read about &lt;expression&gt; .</code></pre>
+<pre><code></code></pre></section><section id="functions"><div class="eyebrow">FiM++ coding reference</div><h1>Functions &amp; scope</h1><h3>FIM++ functions</h3>
+<p>In all examples below, colons can be replaced with full stops. Parts in braces {...} are optional.</p>
+<p>Syntax:</p>
+<pre><code>I learned {about} &lt;identifier: function name&gt; {with &lt;list of identifiers: argument names&gt;}:
+    &lt;statements&gt;
+That&#x27;s about &lt;identifier: function name&gt; {with &lt;identifier: result variable&gt;}.</code></pre>
+<p>The function name has to be identical at the baginning and the end, or the interpreter will accuse it of being a changeling.</p>
+<p>If the result variable is given, then the function will return that variable&#x27;s value. If it&#x27;s not, the local variable with the same name as the function will be returned.</p>
+<p>Syntax of the list of identifiers follows basic English rules. Oxford comma is optional.</p>
+<h3>Variable scope rules</h3>
+<p>By default, every store to a variable tries to store into a function-local variable, unless you explicitly say otherwise with the following statement:</p>
+<pre><code>Yes, I mean that &lt;variable name&gt;.</code></pre>
+<p>From that statement every use of that name will refer to the variable in global scope. Technically, you can replace functions with that, because their name also live in a global scope.</p>
+<p>Reading from a variable first tries to read from the local one, and if it is unassigned, tries to read the global one.</p></section><section id="conditions"><div class="eyebrow">FiM++ coding reference</div><h1>Comparisons &amp; logic</h1><h3>FIM++ conditional statements</h3>
+<p>Conditional expressions are used in some statements. They differ in syntax from other expressions.</p>
+<p>In all examples below, parts in braces {...} are optional, and parts in parentheses separated by bars (...|...) are equivalent alternatives.</p>
+<p>All comparisons are strictly typed, so the number 2 and the string &quot;2&quot; are not considered equal.</p>
+<h3>Numerical comparisons</h3>
+<pre><code>&lt;expression&gt; (has|have|had) more than &lt;expression&gt;
+&lt;expression&gt; (has|have|had) less than &lt;expression&gt;
+&lt;expression&gt; (has|have|had) not more than &lt;expression&gt;
+&lt;expression&gt; (has|have|had) not less than &lt;expression&gt;
+(everypony|everything) in &lt;tuple-holding variable&gt; (has|have|had) more than &lt;expression&gt;
+(anypony|anything) in &lt;tuple-holding variable&gt; (has|have|had) more than &lt;expression&gt;
+...</code></pre>
+<h3>Equality</h3>
+<pre><code>&lt;expression&gt; (is|are|was|were) equal to &lt;expression&gt;
+&lt;expression&gt; (is|are|was|were) not equal to &lt;expression&gt;
+&lt;expression&gt; (is|are|was|were) (an element|elements) of &lt;expression&gt;
+&lt;expression&gt; (is|are|was|were) not (an element|elements) of &lt;expression&gt;</code></pre>
+<p>In future releases, the form using the word &quot;element&quot; might be restricted to boolean values.</p>
+<h3>Testing for nothing</h3>
+<pre><code>&lt;expression&gt; (is|are|was|were) nothing
+&lt;expression&gt; (is|are|was|were) nopony
+&lt;expression&gt; (is|are|was|were) something
+&lt;expression&gt; (is|are|was|were) somepony</code></pre>
+<h3>Alternative</h3>
+<pre><code>&lt;simple condition&gt; or &lt;simple condition&gt;
+&lt;simple condition&gt;, &lt;simple condition&gt; or &lt;simple condition&gt;
+either &lt;simple condition&gt; or &lt;simple condition&gt;
+either  &lt;simple condition&gt;, &lt;simple condition&gt; or &lt;simple condition&gt;
+...</code></pre>
+<h3>Conjunction</h3>
+<pre><code>&lt;simple condition&gt; and &lt;simple condition&gt;
+&lt;simple condition&gt;, &lt;simple condition&gt; and &lt;simple condition&gt;
+...</code></pre>
+<p>There is some ambiguity between conjuction and tuple syntaxes. Don&#x27;t try to use tuple literals in conjuctions. For instance, this won&#x27;t work:</p>
+<pre><code>I did this while numbers were equal to one and two and letters were equal...</code></pre></section><section id="control"><div class="eyebrow">FiM++ coding reference</div><h1>Branches &amp; loops</h1><h3>FIM++ control statements</h3>
+<p>In all the following examples, you can use full stops instead of colons, and parts in braces {...} are optional.</p>
+<h3>While loop</h3>
+<p>Syntax:</p>
+<pre><code>I did this while &lt;conditional expression&gt;:
+    &lt;first group of statements&gt;
+{ It didn&#x27;t work, but I knew why:
+    &lt;second group of statements&gt; }
+{ In the end, I did this instead:
+    &lt;third group of statements&gt; }
+That&#x27;s what I did.</code></pre>
+<p>This construct executes the first group of statements while the conditional expressions is true. </p>
+<p>When an error occurs, the loop is broken. If there is no second group of statements, the error is propagated back up the stack.</p>
+<p>In any case, the third group of statements is guarenteed to execute after the loop ends, by natural or erratic ways.</p>
+<h3>Constant loop</h3>
+<p>Syntax:</p>
+<pre><code>I did this &lt;number literal&gt; times :
+    &lt;first group of statements&gt;
+{ It didn&#x27;t work, but I knew why:
+    &lt;second group of statements&gt; }
+{ In the end, I did this instead:
+    &lt;third group of statements&gt; }
+That&#x27;s what I did.</code></pre>
+<p>Instead of writing &quot;I did this 1 times&quot;, you can write &quot;I did this once&quot; or even &quot;I did this&quot;.</p>
+<p>This loops works similar to the one above, but it only loops a constant number of times.</p>
+<h3>Conditional statement</h3>
+<pre><code>When &lt;conditional expression&gt; :
+    &lt;first group of statements&gt;
+{ In the end, I did this instead:
+    &lt;second group of statements&gt; }
+That&#x27;s what I did.</code></pre>
+<p>This construct executes the first group of statements when the conditional expression is true, and the second one if it&#x27;s false.</p>
+<p>Note that although similar, this construct does not perform any error handling!</p></section><section id="output"><div class="eyebrow">FiM++ coding reference</div><h1>Output &amp; other statements</h1><h3>FIM++ other statements</h3>
+<p>In all examples below, parts in braces {...} are optional, and parts in parentheses separated by bars (...|...) are equivalent alternatives.</p>
+<h3>Output</h3>
+<pre><code>I {quickly} (wrote|said|sang) {(that|,|:)} &lt;expression&gt; .</code></pre>
+<p>If there is no &quot;quickly&quot;, a new line is added.</p>
+<h3>Standalone comment</h3>
+<pre><code>By the way, &lt;almost anything&gt; .</code></pre>
+<h3>Comment added to almost any other statement</h3>
+<p>   &lt;statement without the final punctuation&gt; , because &lt;almost anything&gt; &lt;the required final punctuation&gt;</p></section><section id="builtins"><div class="eyebrow">FiM++ coding reference</div><h1>Built-in functions</h1><h3>FIM++ built-in functions and global variables.</h3>
+<h3>Built-in string variables</h3>
+<pre><code>new line
+tabulation
+apostrophe
+quote</code></pre>
+<h3>Built-in boolean variables</h3>
+<pre><code>harmony
+chaos</code></pre>
+<h3>Built-in functions</h3>
+<pre><code>sum</code></pre>
+<p>Sums all its arguments. All arguments have to be numbers.</p>
+<pre><code>product</code></pre>
+<p>Multiplies all its arguments. All arguments have to be numbers.</p>
+<pre><code>difference
+quotient
+remainder</code></pre>
+<p>The respective arithmetic operations. Require two numbers as arguments.</p>
+<pre><code>dictionary</code></pre>
+<p>Converts a tuple into an array.</p>
+<pre><code>letters</code></pre>
+<p>Splits a string into an array of strings of length 1.</p>
+<pre><code>first</code></pre>
+<p>Returns the first element of either list or array.</p>
+<pre><code>character by code</code></pre>
+<p>Returns a string containing one character of a given Unicode codepoint.</p></section><section id="java"><div class="eyebrow">FiM++ coding reference</div><h1>Java interoperability</h1><h3>FIM++ Java interop</h3>
+<p>In all examples below, parts in braces {...} are optional, and parts in parentheses separated by bars (...|...)are equivalent alternatives.</p>
+<h3>Loading classes</h3>
+<pre><code>I enchanted &lt;identifier: variable&gt; with &lt;list of words&gt; .</code></pre>
+<p>The list of words will be converted to fully qualified Java class name. The loaded class will be stored in the variable for later use.</p>
+<pre><code>javax swing j frame =&gt; javax.swing.JFrame
+java lang math =&gt; java.lang.Math
+java util hash map =&gt; java.util.HashMap 
+org xml sax helpers xml filter impl =&gt; org.xml.sax.helpers.XMLFilterImpl
+javax swing graphics two =&gt; javax.swing.Graphics2</code></pre>
+<h3>Creating objects</h3>
+<pre><code>I woke up &lt;identifier: variable&gt; with &lt;identifier: class&gt; {and &lt;argument list&gt;}.</code></pre>
+<h3>Reading fields (updated, added from- JCM)</h3>
+<pre><code>I (took|got|stole) &lt;field name&gt; (of|from) &lt;identifier: class or object&gt; and {I} gave (it|them|her|him) to &lt;identifier: target variable to store result&gt; .</code></pre>
+<p>Field name can be either a string literal or an identifier. Future version will support numbers, so you will be able to access native Java arrays.</p>
+<h3>Writing fields</h3>
+<pre><code>I gave &lt;expression&gt; to &lt;field name&gt; of &lt;identifier: class or object&gt; .</code></pre>
+<p>Field name can be either a string literal or an identifier.</p>
+<p>Quoted and identifier field writes are regression-tested in this build.</p>
+<h3>Calling methods</h3>
+<pre><code>{I told &lt;identifier: variable for result&gt;} I asked {&lt;identifier: class&gt;} about &lt;argument list&gt; (so|if|what|when) {(it|she|he|they)} &lt;identifier: method name&gt;.</code></pre>
+<p>Equivalent of either: </p>
+<pre><code>result = class.method(arguments); 
+result = ((class)(arguments.head)).method(arguments.tail);</code></pre>
+<p>   {I told &lt;identifier: variable for result&gt;} I asked {&lt;identifier: class&gt;} about &lt;argument&gt; made &lt;identifier: property name&gt;.</p>
+<p>Equivalent of either: </p>
+<pre><code>result = class.setproperty(argument, true); 
+result = ((class)argument)).setproperty(true);</code></pre>
+<p>   {I told &lt;identifier: variable for result&gt;} I asked {&lt;identifier: class&gt;} about &lt;argument&gt; with &lt;arguments&gt; of &lt;property&gt;.</p>
+<p>Equivalent of either: </p>
+<pre><code>result = class.setproperty(argument, arguments); 
+result = ((class)argument)).setproperty(arguments);</code></pre>
+<p>   {I told &lt;identifier: variable for result&gt;} I asked {&lt;identifier: class&gt;} (what|if|when) &lt;argument&gt; {with &lt;arguments&gt;} (is|are|was|were|has|have|had) property .</p>
+<p>Equivalent of either: </p>
+<pre><code>result = class.getproperty(argument, arguments); 
+result = ((class)argument)).getproperty(arguments);
+result = class.isproperty(argument, arguments); 
+result = ((class)argument)).isproperty(arguments);</code></pre>
+<h3>Automatic conversion from functions to javax.swing.ActionListener</h3>
+<p>You can add FIM++ functions as action listeners to Swing widgets.</p>
+<p>The function will be called whenever the action happens without any arguments and its result will be discarded.</p></section><section id="input"><div class="eyebrow">FiM++ coding reference</div><h1>Program input</h1><h3>Reading a line of input through Java</h3>
+<p>Run this example, enter a line in Program input, and press Return. This uses the supported Java API rather than Sparkle input syntax.</p>
+<pre><code>Dear Princess Celestia: An input example.
+Today I learned about listening:
+    I enchanted Celestia with java lang system.
+    I took &quot;in&quot; of Celestia and gave it to stream.
+    I enchanted Luna with java io input stream reader.
+    I woke up reader with Luna and stream.
+    I enchanted Cadance with java io buffered reader.
+    I woke up buffer with Cadance and reader.
+    I said &quot;What is your name?&quot;.
+    I told answer I asked about buffer when they read line.
+    I said &quot;Hello, &#x27;answer&#x27;!&quot;.
+Your faithful student, Twilight Sparkle.</code></pre>
+<h3>Java field names and boolean values</h3>
+<p>Field reads and writes accept identifiers or quoted field names. Returned Java booleans are harmony/chaos, so they work with an element of harmony conditions. Java library classes are available from the bundled runtime, including Swing. Numerical Java-array field indexing is not implemented. The graphics two class-name example in the old notes is illustrative naming syntax, not a real standard Java class. Java constructors/methods still need matching supported argument types.</p></section><section id="compatibility"><div class="eyebrow">FiM++ coding reference</div><h1>Compatibility &amp; limits</h1><h3>Use the original dialect</h3>
+<p>The saved syntax documents and the Sparkle 1.0 specification describe different languages. The bundled compiler preserves the original dialect, with bug fixes. Its complete command-family regression suite passes 322 tests; the original compatibility checks and 69 postscript checks also pass.</p>
+<h3>Important differences</h3>
+<p class="bullet">• Numbers are signed 64-bit integers at runtime; literals are nonnegative integers. Division uses integer division. Words zero through twelve work. Use difference to produce negative values.</p>
+<p class="bullet">• Names are case-insensitive ASCII words. Articles a/an/the are removed. Hyphens and interior apostrophes work; numeric and general Unicode variable names do not.</p>
+<p class="bullet">• Booleans are harmony and chaos. Use the conditional-expression forms in this guide.</p>
+<p class="bullet">• Functions use with for parameters, and That&#x27;s about ... with ... for the return variable.</p>
+<p class="bullet">• Arrays are one-based books; use On ... page ... to read or write.</p>
+<p class="bullet">• Use sum, difference, product, quotient, and remainder through function-call assignment, rather than Sparkle&#x27;s infix arithmetic.</p>
+<h3>Sparkle-only features are not supported</h3>
+<p>The separate Sparkle probes pass 3 of 95 checks. Typed declarations, constants, decimal and character literals, class inheritance/interfaces, multiple main methods, direct input/prompt commands, infix arithmetic, switch, do-while, counting for, and foreach syntax are not implemented here. Neither are Sparkle&#x27;s case-sensitive identifiers and Unicode naming rules. The PDF&#x27;s Hello World, 100 Mississipis, sum example, and Jugs of Cider use unsupported syntax. Use the examples shipped in this app instead. A .fpp filename is accepted as text, but its extension does not select a different dialect.</p>
+<h3>Fixes in this build</h3>
+<p>Parentheses comments no longer consume the next statement. Tuple calls accept of each without the second of. Quantified comparisons include not less than and not more than. Quoted Java field assignments, Java boolean returns, how and when method aliases, acronym/digit class lookup, and full Unicode character codepoints have been fixed. The app uses exactly the tested latest compiler JAR. Its standalone runtime is selected natively for Intel or Apple Silicon.</p></section><section id="examples"><div class="eyebrow">FiM++ coding reference</div><h1>Example letters</h1><h3>Hello, Equestria</h3>
+<pre><code>Dear Princess Celestia: An example letter.
+
+Today I learned about greetings:
+
+    I said &quot;Hello, Equestria&quot;.
+
+Your faithful student, Twilight Sparkle.</code></pre>
+<h3>Postscripts</h3>
+<pre><code>Dear Princess Celestia: An example letter.
+
+Today I learned about greetings:
+    I said &quot;Hello, Equestria&quot;. P.S.This inline note is ignored.
+
+Your faithful student, Twilight Sparkle.
+
+PS This note is ignored by the interpreter.
+PSS I said &quot;This must not execute&quot;.
+P.S. Dotted postscripts work too.
+P.P.S.This spelling is in the language specification.
+pss Lowercase works without final punctuation</code></pre>
+<h3>Books &amp; arrays</h3>
+<pre><code>Dear Princess Celestia: A book of friends.
+Today I learned about books:
+    I found a book named friends.
+    On first page of friends I wrote &quot;Twilight&quot;.
+    On second page of friends I wrote &quot;Rainbow Dash&quot;.
+    On second page of friends I read about pony.
+    I said &quot;A friend: &#x27;pony&#x27;&quot;.
+Your faithful student, Spike.</code></pre>
+<h3>Program input</h3>
+<pre><code>Dear Princess Celestia: An input example.
+Today I learned about listening:
+    I enchanted Celestia with java lang system.
+    I took &quot;in&quot; of Celestia and gave it to stream.
+    I enchanted Luna with java io input stream reader.
+    I woke up reader with Luna and stream.
+    I enchanted Cadance with java io buffered reader.
+    I woke up buffer with Cadance and reader.
+    I said &quot;What is your name?&quot;.
+    I told answer I asked about buffer when they read line.
+    I said &quot;Hello, &#x27;answer&#x27;!&quot;.
+Your faithful student, Twilight Sparkle.</code></pre>
+<h3>99 Jugs of Cider</h3>
+<pre><code>Dear Princess Celestia: Letter About Cider.
+
+Today I learned Applejack&#x27;s Drinking Song.
+
+I learned about Applejack&#x27;s Drinking Song:
+
+    Did you know that Applejack likes the number 99?
+
+    I did this while Applejack had more than one.
+        I sang &quot; &#x27;Applejack&#x27; jugs of cider on the wall, &#x27;Applejack&#x27; jugs of cider,&quot;.
+        Applejack got one less.
+
+        When Applejack had more than 1:
+            I sang &quot;Take one down and pass it around, &#x27;Applejack&#x27; jugs of cider on the wall.&quot;.
+        In the end, I did this instead:
+            I sang &quot;Take one down and pass it around, 1 jug of cider on the wall.
+      &#x27;new line&#x27;1 jug of cider on the wall, 1 jug of cider.
+      &#x27;new line&#x27;Take one down and pass it around, no more jugs of cider on the wall.&quot;.
+        That&#x27;s what I did.
+
+    In the end, I did this instead.
+        I sang &quot;No more jugs of cider on the wall, no more jugs of cider.
+      &#x27;new line&#x27;Go to the store and buy some more, 99 jugs of cider on the wall.&quot;.
+    That&#x27;s what I did.
+
+That&#x27;s about Applejack&#x27;s Drinking Song with Applejack!
+
+Your faithful student, Twilight Sparkle.</code></pre>
+<h3>Brainf*** interpreter</h3>
+<pre><code>Dear Princess Celestia: Letter about Discord.
+
+I learned about Applejack with Pinkie Pie:
+    By the way, &quot;+&quot;.
+    On page numbered by Pinkie Pie of Sweetie Belle I read about Twilight, because she is always a temporary variable.
+    When Twilight was nothing:
+        Did you know Twilight is zero?
+    That&#x27;s what I did!
+    Twilight got one more.
+    When Twilight had not less than Tom:
+        Did you know Twilight is zero?
+    That&#x27;s what I did!
+    On page numbered by Pinkie Pie of Sweetie Belle I scribbled about Twilight.
+That&#x27;s about Applejack.
+
+I learned about Liarjack with Pinkie Pie:
+    By the way, &quot;-&quot;.
+    On page numbered by Pinkie Pie of Sweetie Belle I read about Twilight.
+    When either Twilight was nothing or Twilight was equal to zero:
+        Did you know Twilight is Tom?
+    That&#x27;s what I did!
+    Twilight got one fewer.
+    When Twilight had less than zero:
+        Twilight did sum of Tom and Twilight!
+    That&#x27;s what I did!
+    On page numbered by Pinkie Pie of Sweetie Belle I scribbled about Twilight.
+That&#x27;s about Liarjack.
+
+I learned about Rainbow Dash with Pinkie Pie:
+    By the way, &quot;&gt;&quot;.
+    Pinkie Pie got one more.
+That&#x27;s about Rainbow Dash with Pinkie Pie.
+
+I learned about Rainbow Crash with Pinkie Pie:
+    By the way, &quot;&lt;&quot;.
+    Pinkie Pie got one less.
+That&#x27;s about Rainbow Crash with Pinkie Pie.
+
+I learned about Spike with Pinkie Pie:
+    On page numbered by Pinkie Pie of Sweetie Belle I read about Twilight.
+    When Twilight was nothing:
+        Did you know Twilight is zero?
+    That&#x27;s what I did!
+    Celestia did character by code of Twilight.
+    I quickly said: Celestia!
+That&#x27;s about Spike.
+
+I learned about Nightmare Moon with Pinkie Pie and Rarity:
+    By the way, &quot;[&quot;.
+    On page numbered by Pinkie Pie of Sweetie Belle I read about Twilight.
+    When either Twilight is nothing or Twilight is equal to zero:
+        Did you know Angel is one, because he&#x27;s gonna hold the bracket number?
+        Rarity got one more!
+        I did this while Angel had more than zero:
+            On page numbered by Rarity of Discord I read about Derpy.
+            When Derpy was equal to &quot;[&quot;:
+                Angel got one more.
+            That&#x27;s what I did!
+            When Derpy was equal to &quot;]&quot;:
+                Angel got one fewer, because sucks to be him!
+            That&#x27;s what I did!
+            Rarity got one more.
+        That&#x27;s what I did!
+    That&#x27;s what I did!
+That&#x27;s about Nightmare Moon with Rarity.
+
+I learned about Luna with Pinkie Pie and Rarity:
+    By the way, &quot;]&quot;.
+    On page numbered by Pinkie Pie of Sweetie Belle I read about Twilight.
+    When Twilight is somepony and Twilight has more than zero:
+        By the way, null checks are important.
+        Angel made difference of zero and one, because he&#x27;s gonna hold the bracket number.
+        Rarity got one less!
+        I did this while Angel had less than zero:
+            On page numbered by Rarity of Discord I read about Derpy.
+            When Derpy was equal to &quot;[&quot;:
+                Angel got one more.
+            That&#x27;s what I did!
+            When Derpy was equal to &quot;]&quot;:
+                Angel got one fewer, because sucks to be him!
+            That&#x27;s what I did!
+            Rarity got one less.
+        That&#x27;s what I did!
+    That&#x27;s what I did!
+That&#x27;s about Luna with Rarity.
+
+Today I learned about Turing completeness.
+
+    Yes, that Tom. Did you know Tom likes the number 256?
+
+    Yes, I mean that Discord. Discord did letters of
+    &quot;++++++++[&gt;++++[&gt;++&gt;+++&gt;+++&gt;+&lt;&lt;&lt;&lt;-]&gt;+&gt;-&gt;+&gt;&gt;+[&lt;]&lt;-]&gt;&gt;.&gt;&gt;---.+++++++..+++.&gt;.&lt;&lt;-.&gt;.+++.------.--------.&gt;+.&gt;++.+++.&quot; .
+    Yes, that Sweetie Belle. Today I found a book named Sweetie Belle, because she is the memory.
+
+    Did you know Pinkie Pie likes the number one, because she is the memory pointer?
+    Did you know Rarity likes Pinkie Pie, because she is the instruction pointer?
+    On the first page of Discord I read about Derpy, because she will keep the current instruction.
+    I did this while Derpy was somepony:
+        When Derpy was equal to &quot;+&quot;:
+            I made Applejack of Pinkie Pie!
+        That&#x27;s what I did!
+        When Derpy was equal to &quot;-&quot;:
+            I made Liarjack of Pinkie Pie!
+        That&#x27;s what I did!
+        When Derpy was equal to &quot;&gt;&quot;:
+            Pinkie Pie made Rainbow Dash of Pinkie Pie!
+        That&#x27;s what I did!
+        When Derpy was equal to &quot;&lt;&quot;:
+            Pinkie Pie made Rainbow Crash of Pinkie Pie!
+        That&#x27;s what I did!
+        When Derpy was equal to &quot;.&quot;:
+            I did Spike of Pinkie Pie.
+        That&#x27;s what I did!
+        When Derpy was equal to &quot;[&quot;:
+            Rarity did Nightmare Moon of Pinkie Pie and Rarity.
+        That&#x27;s what I did!
+        When Derpy was equal to &quot;]&quot;:
+            Rarity did Luna of Pinkie Pie and Rarity.
+        That&#x27;s what I did!
+        Rarity got one more.
+        On the page numbered by Rarity of Discord I read about Derpy.
+    That&#x27;s what I did!
+
+    I quickly sang new line, because why not.
+
+Your faithful student, Flutterjerk.</code></pre>
+<h3>Busy Beaver</h3>
+<pre><code>Dear Princess Celestia: Letter about rodents and non-computable functions.
+
+I learned about Derpy with Muffin, because she knows how to
+    read letters as numbers:
+
+    Did you know Cupcake is 65, because that is the same as &quot;A&quot;?
+    Did you know Cake is &quot;A&quot;, because that is the same as 65?
+
+    I did this while Cake is not equal to Muffin:
+        Cupcake got one more.
+        Cake made a character by code of Cupcake.
+    That&#x27;s what I did!
+
+    Cupcake made difference of Cupcake and 65.
+
+That&#x27;s about Derpy with Cupcake.
+
+
+Today I learned about the Busy Beaver.
+
+    Did you know A Really Big Number is 100000,
+    because even Pinkie Pie can&#x27;t count that high?
+
+    I found a book named Steven. By the way, I really
+    like books, even the infinitely long ones.
+
+    Did you know Beaver likes &quot;1RB 1LB 1LA 0LC 1RH 1LD 1RD 0RA&quot;?
+    By the way, &quot;1RB 1LB 1LA 1RH&quot; makes for a lazy beaver, while
+    &quot;1RB 1LC 1RC 1RB 1RD 0LE 1LA 1LD 1RH 0LA&quot; is a really really
+    busy one.
+
+    Did you know Smart Cookie likes A Really Big Number, because she does
+    not want to read past the covers of the book?
+
+    Did you know Chancellor Puddinghead likes &quot;A&quot;, because she represents
+    the state?
+
+    Did you know Fluttershy likes 0, because she counts the beaver&#x27;s steps?
+
+    Beaver made letters of Beaver.
+
+    I did this while Chancellor Puddinghead was not equal to &quot;H&quot;:
+
+        On the page numbered by Smart Cookie of Steven I read about
+        Flim, because he is the input symbol.
+
+        Dinky made Derpy of Chancellor Puddinghead.
+        Dinky made product of Dinky and 2.
+
+        When Flim was equal to &quot;1&quot;:
+            Dinky got one more.
+        That&#x27;s what I did.
+
+        Dinky made product of Dinky and 4.
+
+        Dinky got one more.
+        On the page numbered by Dinky of Beaver I read about Flam,
+        because he is the output symbol.
+
+        Dinky got one more.
+        On the page numbered by Dinky of Beaver I read about Zecora,
+        because she points us to the right direction.
+
+        Dinky got one more.
+        On the page numbered by Dinky of Beaver I read about Chancellor
+        Puddinghead.
+
+        On the page numbered by Smart Cookie of Steven I wrote Flam.
+
+        When Zecora was equal to &quot;R&quot;:
+            Smart Cookie got one more.
+        In the end, I did this instead:
+            Smart Cookie got one less.
+        That&#x27;s what I did.
+
+        Fluttershy got one more!
+
+    That&#x27;s what I did!
+
+    I quickly sang &quot;The beaver did &quot;. I quickly said Fluttershy. I said &quot; steps&quot;.
+
+Your faithful student, Twilight Sparkle.</code></pre>
+<h3>Prime number sieve</h3>
+<pre><code>Dear Princess Celestia: Letter about Prime Numbers.
+
+Today I learned about Eratosthenes:
+
+    Did you know Tom likes the number 1000, because this is the upper limit we are going to check?
+
+    Today I found a book named Sweetie Belle.
+
+    Did you know Rarity likes the number one?
+    I did this while Rarity had not more than Tom:
+        On the page numbered by Rarity of Sweetie Belle I wrote what I knew about harmony.
+        Rarity got one more.
+    That&#x27;s what I did.
+
+    On the 1st page of Sweetie Belle I wrote what I knew about chaos.
+
+    Did you know Applejack likes the number two?
+    I did this while Applejack had not more than Tom:
+        On the page numbered by Applejack of Sweetie Belle I read about Pinkie Pie.
+        When Pinkie Pie was an element of harmony:
+            Rainbow Dash made sum of Applejack and Applejack.
+            I did this while Rainbow Dash had not more than Tom:
+                On the page numbered by Rainbow Dash of Sweetie Belle I wrote what I knew about chaos.
+                Rainbow Dash made sum of Rainbow Dash and Applejack!
+            That&#x27;s what I did.
+        That&#x27;s what I did.
+        Applejack got one more.
+    That&#x27;s what I did.
+
+    Did you know Rarity likes the number one?
+    I did this while Rarity had not more than Tom:
+        On the page numbered by Rarity of Sweetie Belle I read about Applejack.
+        When Applejack was an element of harmony:
+            I said: Rarity!
+        That&#x27;s what I did.
+        Rarity got one more.
+    That&#x27;s what I did.
+
+
+
+Your faithful student, Twilight Sparkle.</code></pre>
+<h3>Prime factors</h3>
+<pre><code>Dear Princess Celestia: Letter about prime factors.
+
+Today I learned about factorization:
+
+    Did you know Spike likes the number 42, because that is the number we are going
+    factorize?
+
+    Did you know Cakes are two? Did you know Pinkie likes the number four, because
+    that&#x27;s the same as two times two?
+
+    I did this while Spike had more than one and Pinkie had not more than Spike:
+        Pumpkin made remainder of Spike and Cakes.
+
+        When Pumpkin was equal to zero:
+            I wrote Cakes.
+            Spike made quotient of Spike and Cakes.
+        In the end, I did this instead:
+            Cakes got one more.
+
+            Pinkie made sum of Pinkie and Cakes. Pinkie made sum of Pinkie and Cakes!
+            Pinkie got one fewer, because that&#x27;s how you make a square cake.
+        That&#x27;s what I did.
+    That&#x27;s what I did.
+
+    When Spike had more than one:
+        I wrote Spike.
+    That&#x27;s what I did!
+
+Your faithful student, Twilight Sparkle.</code></pre>
+<h3>Factorials</h3>
+<pre><code>Dear Princess Celestia: Letter about Factorials.
+
+I learned about the factorial with Spike:
+    By the way, this function will return a factorial of Spike&#x27;s number.
+
+    Did you know that Sweetie Belle likes Spike?
+    I did this while Spike had more than the number one:
+        Spike got one fewer.
+        Sweetie Belle did the product of Sweetie Belle and Spike!
+    That&#x27;s what I did.
+That&#x27;s about the factorial with Sweetie Belle!
+
+Today I learned:
+    Did you know that Rarity likes the number one?
+    I did this 20 times:
+        Twilight Sparkle did the factorial of Rarity.
+        I wrote: Twilight Sparkle!
+        Rarity got one more.
+    That&#x27;s what I did!
+Your faithful student, Jared MF.</code></pre>
+<h3>Fibonacci</h3>
+<pre><code>Dear Princess Celestia: Fibonacci.
+
+I learned The Fibonacci Sequence with Applejack&#x27;s number.
+    Did you know that Rarity&#x27;s Gems is the number 1?
+    Did you know that Spike&#x27;s Hoard is the number 1?
+    I said Spike&#x27;s Hoard.
+    I said Rarity&#x27;s Gems.
+    Applejack&#x27;s number got 2 less.
+    I did this while Applejack&#x27;s number were not equal to 0:
+        Applejack&#x27;s number got 1 less.
+        When Rarity&#x27;s Gems had less than Spike&#x27;s Hoard:
+            Rarity&#x27;s Gems made sum of Rarity&#x27;s Gems and Spike&#x27;s Hoard.
+            I said Rarity&#x27;s Gems.
+        In the end, I did this instead:
+            Spike&#x27;s Hoard made sum of Rarity&#x27;s Gems and Spike&#x27;s Hoard.
+            I said Spike&#x27;s Hoard.
+        That&#x27;s what I did.
+    That&#x27;s what I did.
+That&#x27;s about The Fibonacci Sequence!
+
+Today I learned about The start.
+    I did The Fibonacci Sequence of the number 10.
+
+Your faithful student, Alex Ford.</code></pre>
+<h3>FizzBuzz</h3>
+<pre><code>Dear Princess Celestia: A letter about job interviews.
+
+Today I learned about fizz buzz:
+
+    Did you know Applebloom likes the number 1?
+
+    I did this while Applebloom had not more than 100:
+        Scootaloo made remainder of Applebloom and three.
+        Sweetie Belle made remainder of Applebloom and five.
+
+        When Scootaloo was equal to zero:
+            When Sweetie Belle was equal to zero:
+                I wrote &quot;Fizz Buzz&quot;.
+            In the end, I did this instead:
+                I wrote &quot;Fizz&quot;.
+            That&#x27;s what I did.
+        In the end, I did this instead:
+            When Sweetie Belle was equal to zero:
+                I wrote &quot;Buzz&quot;.
+            In the end, I did this instead:
+                I said Applebloom.
+            That&#x27;s what I did.
+        That&#x27;s what I did.
+
+        Applebloom got one more.
+    That&#x27;s what I did.
+
+Your faithful student, Twilight Sparkle.</code></pre>
+<h3>Fourth powers</h3>
+<pre><code>Dear Princess Celestia: Letter about the Fourth Power.
+
+I learned about the fourth power with Twilight Sparkle:
+    Did you know Flash Sentry likes Twilight Sparkle?
+    Flash Sentry did the product of Twilight Sparkle and Flash Sentry!
+    Spike did the product of Twilight Sparkle and Flash Sentry!
+    Princess Luna did the product of Twilight Sparkle and Spike!
+
+    Did you know Twilight Sparkle likes the number zero?
+    Did you know Flash Sentry likes Twilight Sparkle?
+    Did you know Spike likes Twilight Sparkle?
+That&#x27;s about the fourth power with Princess Luna.
+
+Today I learned:
+    Did you know Applejack likes the number two?
+
+    I did this 20 times:
+        Pinkie Pie did the fourth power of Applejack.
+        I wrote: Pinkie Pie!
+        Applejack got one more.
+    That&#x27;s what I did!
+Your faithful student, Jared MF.</code></pre>
+<h3>Greatest common divisor</h3>
+<pre><code>Dear Princess Celestia: Letter about the Great and Powerful Common Divisor.
+
+I learned about the greatest common divisor with Snips and Snails.
+
+    I did this while Snails had more than zero.
+        Did you know that Twilight is Snips?
+        Did you know that Snips is Snails?
+        Snails made remainder of Twilight and Snails!
+    That&#x27;s what I did.
+
+That&#x27;s about the greatest common divisor with Snips.
+
+Today I learned:
+
+    Did you know Rarity likes the number 66?
+    Did you know Applejack likes the number twelve?
+    Trixie did the greatest common divisor of Applejack and Rarity.
+
+    I said: Trixie!
+
+Your faithful student, Trixie.</code></pre>
+<h3>Multiples</h3>
+<pre><code>Dear Princess Celestia: Letter about Multiples.
+
+I learned about multiples with Princess Luna:
+    Did you know Rarity likes the number one?
+    Did you know Spike likes Rarity?
+    Did you know Twilight Sparkle likes Spike?
+
+    Spike got one more, because he is Twilight Sparkle&#x27;s sidekick.
+    Twilight Sparkle got two more, because she is the leader of the Mane 6.
+
+    Did you know Discord likes Rarity, Spike, and Twilight Sparkle?
+    Discord made the dictionary of Discord!
+
+    I did this while Princess Luna was not equal to 0:
+        I wrote: Discord!
+        On the first page of Discord I read about Rarity.
+        Rarity got one more.
+        On the first page of Discord I wrote what I knew about Rarity.
+
+        On the second page of Discord I read about Spike.
+        Spike got two more, because he is Twilight Sparkle&#x27;s sidekick.
+        On the second page of Discord I wrote what I knew about Spike.
+
+        On the third page of Discord I read about Twilight Sparkle.
+        Twilight Sparkle got three more, because she is the leader of the Mane 6.
+        On the third page of Discord I wrote what I knew about Twilight Sparkle.
+
+        Princess Luna got one fewer.
+    That&#x27;s what I did!
+That&#x27;s about multiples.
+
+Today I learned how this works:
+    I made multiples of 200!
+Your faithful student, Jared MF.</code></pre>
+<h3>Odd and even numbers</h3>
+<pre><code>Dear Princess Celestia: Against All Odds and Evens:
+
+I learned about sorting odds with Twilight Sparkle:
+    By the way, this function checks for all the odd numbers, such as 1, 3, and 5.
+
+    Did you know Rarity likes the number one?
+    Did you know Spike likes Rarity?
+    I found a book titled Sweetie Belle today, because she will hold the odd numbers.
+
+    On the first page of Twilight Sparkle I read about Tom Dan, because he might hold the current odd number.
+    On the first page of Sweetie Belle I noted about Tom Dan, because that&#x27;s where the odd numbers go.
+    Rarity got two more. Spike got one more.
+    On the page numbered by Rarity of Twilight Sparkle I read about Tom Dan.
+    I did this while Tom Dan was something:
+        On the page numbered by Spike of Sweetie Belle I noted about Tom Dan.
+        Rarity got two more. Spike got one more.
+        On the page numbered by Rarity of Twilight Sparkle I read about Tom Dan.
+    That&#x27;s what I did!
+That&#x27;s about sorting odds with Sweetie Belle.
+
+I learned about sorting evens with Fluttershy:
+    By the way, this function checks for all the even numbers, such as 2, 4, and 6.
+
+    Did you know Rainbow Dash likes the number one?
+    Did you know Scootaloo likes Rainbow Dash?
+    Rainbow Dash got one more.
+    I found a book titled Spitfire today, because she will hold the even numbers.
+
+    On the second page of Fluttershy I read about Tank, because he might hold the current even number.
+    On the first page of Spitfire I noted about Tank, because that&#x27;s where the even numbers go.
+    Rainbow Dash got two more. Scootaloo got one more.
+    On the page numbered by Rainbow Dash of Fluttershy I read about Tank.
+    I did this while Tank was something:
+        On the page numbered by Scootaloo of Spitfire I noted about Tank.
+        Rainbow Dash got two more. Scootaloo got one more.
+        On the page numbered by Rainbow Dash of Fluttershy I read about Tank.
+    That&#x27;s what I did!
+That&#x27;s about sorting evens with Spitfire.
+
+I learned about viewing numbers with Applejack.
+    By the way, this function checks for all the numbers instead of nothing.
+
+    Did you know Pinkie Pie likes the number one?
+    I found a book titled Apple Bloom today, because she will hold ALL of Appljack&#x27;s numbers, and she is her sister.
+
+    On the first page of Applejack I read about Big Mac, because he will hold the current number.
+    On the first page of Apple Bloom I noted about Big Mac, because of what I already mentioned about Apple Bloom!
+    Pinkie Pie got one more.
+    On the page numbered by Pinkie Pie of Applejack I read about Big Mac.
+    I did this while Big Mac was somepony:
+        On the page numbered by Pinkie Pie of Apple Bloom I noted about Big Mac.
+        Pinkie Pie got one more.
+        On the page numbered by Pinkie Pie of Applejack I read about Big Mac.
+    That&#x27;s what I did!
+That&#x27;s about viewing numbers with Apple Bloom.
+
+Today I learned about sorting:
+    Did you know Twilight Sparkle likes 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, nothing, and nothing?
+    Sunset Shimmer did the dictionary of Twilight Sparkle!
+    Princess Cadance did viewing numbers of Sunset Shimmer.
+
+    I wrote: &quot;All numbers: &#x27;Princess Cadance&#x27;&quot;, because she will show ALL the numbers.
+    I sang new line.
+
+    Snips did sorting odds of Sunset Shimmer.
+    Snails did sorting evens of Sunset Shimmer.
+
+    I wrote: &quot;Odd numbers: &#x27;Snips&#x27;&quot;, because he will show all the odd numbers.
+    I wrote: &quot;Even numbers: &#x27;Snails&#x27;&quot;, because he will show all the even numbers.
+
+    By the way, that has been my odds and evens program.
+Your faithful student, Jared MF.</code></pre>
+<h3>Quicksort</h3>
+<pre><code>Dear Princess Celestia: Letter about Quicksort:
+
+I learned about exchange with Applejack, Rainbow Dash, and Rarity.
+
+    On the page numbered by Rarity of Applejack I read about Sweetie
+    Belle.
+
+    On the page numbered by Rainbow Dash of Applejack I read about
+    Scootaloo.
+
+    On the page numbered by Rarity of Applejack I wrote what I knew
+    about Scootaloo.
+
+    On the page numbered by Rainbow Dash of Applejack I wrote what I
+    knew about Sweetie Belle.
+
+That&#x27;s about exchange.
+
+
+I learned about partitioning with Applejack, Rainbow Dash, and Rarity.
+
+    On the page numbered by Rarity of Applejack I read about Apple
+    Bloom.
+
+    Sweetie Belle made difference of Rainbow Dash and the number one.
+
+    Did you know Scootaloo likes Rainbow Dash?
+
+    I did this while Scootaloo had less than Rarity:
+
+        On the page numbered by Scootaloo of Applejack I read about
+        Diamond Tiara.
+
+        When Diamond Tiara had not more than Apple Bloom:
+
+            Sweetie Belle got one more.
+
+            I did exchange of Applejack, Sweetie Belle, and Scootaloo.
+
+        That&#x27;s what I did.
+
+        Scootaloo got one more.
+
+    That&#x27;s what I did.
+
+    Sweetie Belle got one more.
+
+    I also caused exchange of Applejack, Sweetie Belle, and Rarity.
+
+That&#x27;s about partitioning with Sweetie Belle.
+
+
+I learned about quicksort with Applejack, Rainbow Dash, and Rarity:
+
+    When Rainbow Dash had less than Rarity:
+
+        Fluttershy did partitioning of Applejack, Rainbow Dash, and Rarity.
+
+        Fluttershy got one less.
+
+        I caused quicksort of Applejack, Rainbow Dash, and Fluttershy.
+
+        Fluttershy got two more.
+
+        I caused quicksort of Applejack, Fluttershy, and Rarity.
+
+    That&#x27;s what I did.
+
+That&#x27;s about quicksort.
+
+
+Today I learned:
+
+    Did you know Applejack likes 9, 5, 4, 11, 2, 10, 6, 3, 8, 12, 1, and 7?
+
+    Applejack did dictionary of Applejack.
+
+    I said: Applejack!
+
+    I did quicksort of Applejack, one, and twelve.
+
+    I said: Applejack! 
+
+Your Faithful Student,
+Twilight Sparkle</code></pre>
+<h3>Squares and cubes</h3>
+<pre><code>Dear Princess Celestia: Squared and Cubed.
+
+I learned about square cube numbers with Queen Chrysalis:
+    Did you know Rarity likes the number one?
+    Did you know Spike likes Rarity?
+    Did you know Twilight Sparkle likes Spike?
+    Did you know Discord likes Rarity, Spike, and Twilight Sparkle?
+
+    Fluffle Puff did the dictionary of Discord.
+    I did this while Queen Chrysalis was not equal to zero:
+        I wrote: Fluffle Puff!
+
+        On the first page of Fluffle Puff I read about Rarity.
+        On the second page of Fluffle Puff I read about Spike.
+        On the third page of Fluffle Puff I read about Twilight Sparkle.
+        Rarity got one more.
+        Did you know Spike likes Rarity?
+        Did you know Twilight Sparkle likes Spike?
+        I did this once:
+            Did you know Sweetie Belle likes Spike?
+            Sweetie Belle did the product of Spike and Sweetie Belle!
+            Spike did the difference of Spike and Sweetie Belle.
+        That&#x27;s what I did!
+        I did this once:
+            Did you know Flash Sentry likes Twilight Sparkle?
+            Flash Sentry did the product of Twilight Sparkle and Flash Sentry!
+            Princess Luna did the product of Twilight Sparkle and Flash Sentry!
+            Did you know Twilight Sparkle likes the number zero?
+            Did you know Flash Sentry likes Twilight Sparkle, because I said that earlier?
+        That&#x27;s what I did.
+        On the first page of Fluffle Puff I noted about Rarity.
+        On the second page of Fluffle Puff I noted about Sweetie Belle.
+        On the third page of Fluffle Puff I noted about Princess Luna.
+
+        Queen Chrysalis got one fewer.
+    That&#x27;s what I did.
+That&#x27;s about square cube numbers.
+
+Today I learned:
+    I made square cube numbers of the number 200.
+    By the way, that is how square numbers and cube numbers are made.
+Your faithful student, Jared MF.</code></pre>
+<h3>Swing window</h3>
+<pre><code>Dear Princess Celestia: Letter about Windows.
+
+I learned about crazy antics.
+    I enchanted Rarity with javax swing J option pane.
+    I asked Rarity about nothing and &quot;Wahaha!&quot; when they show message dialog.
+That&#x27;s about the crazy antics.
+
+Today I learned:
+
+    I enchanted Rainbow Dash with javax swing J frame.
+
+    I woke up Zecora with Rainbow Dash and &quot;Hello, Equestria!&quot;.
+    I asked about Zecora with 600 and 400 of size.
+    I stole &quot;exit on close&quot; of Rainbow Dash and gave it to Fluttershy.
+    I asked about Zecora with Fluttershy of default close operation.
+
+    I enchanted Spike with javax swing J button.
+    I woke up Twilight with Spike and &quot;Click me!&quot;.
+    I asked about Twilight and crazy antics when they add action listener.
+    I asked about Zecora and Twilight when they add.
+
+    I asked about Zecora made visible.
+
+    By the way, this program is ridiculous.
+
+Your faithful student, Pinkie Pie.</code></pre>
+<h3>Calculator</h3>
+<pre><code>Dear Princess Celestia: Letter about Abacus.
+
+I learned about putting things together.
+
+    I told Snips I asked if Applejack has text.
+    I told Snails I asked if Apple Bloom has text.
+
+    I enchanted Cadance with java lang integer.
+    I told Snips I asked Cadance about Snips when they parse int.
+    I told Snails I asked Cadance about Snails when they parse int.
+
+    Snips did sum of Snips and Snails.
+    I told Snips I asked Cadance about Snips when they to string.
+
+    I enchanted Rarity with javax swing J option pane.
+    I asked Rarity about nothing and Snips when they show message dialog.
+That&#x27;s about putting things together.
+
+Today I learned:
+
+    I enchanted Twist with javax swing J frame.
+    I enchanted Spike with javax swing J text field.
+    I enchanted Tom with javax swing J button.
+    I enchanted Rarity with java awt flow layout.
+    I woke up Rarity with Rarity.
+
+    Yes, that Applejack. Yes, that Apple Bloom.
+    I woke up Applejack with Spike and &quot;0&quot;.
+    I woke up Apple Bloom with Spike and &quot;0&quot;.
+    I woke up Rainbow Dash with Tom and &quot;Go!&quot;.
+
+    I asked about Applejack with 30 of columns.
+    I asked about Apple Bloom with 30 of columns.
+
+    I woke up Sweetie Belle with Twist and &quot;Abacus&quot;.
+    I asked about Sweetie Belle with 600 and 400 of size.
+    I asked about Sweetie Belle with Rarity of layout.
+    I stole &quot;exit on close&quot; of Twist and gave it to Fluttershy.
+    I asked about Sweetie Belle with Fluttershy of default close operation.
+
+    I asked about Sweetie Belle and Applejack when they add.
+    I asked about Sweetie Belle and Apple Bloom when they add.
+    I asked about Sweetie Belle and Rainbow Dash when they add.
+
+    I asked about Rainbow Dash and putting things together when they add action listener.
+
+    I asked about Sweetie Belle made visible.
+
+Your faithful student, Luna.</code></pre></section><section id="credits"><div class="eyebrow">FiM++ coding reference</div><h1>About &amp; licenses</h1><h3>FiM++ Studio</h3>
+<p>Created by: RyogaTwo</p>
+<p>Native AppKit editor and offline WebKit reference. Includes the modified FiM++ interpreter by Karol Stasiak and contributors, distributed under GPLv3 or later. The source and license are supplied with the app package. Eclipse Temurin 17 runtimes are bundled for arm64 and x86_64. Their legal notices are included within each runtime. Temurin is OpenJDK under GPLv2 with the Classpath Exception. Scala libraries retain their bundled licenses. No account, separate runtime installation, or internet connection is needed for the editor or guide.</p></section><footer>Included with FiM++ Studio • Available offline • Original FiM++ dialect</footer></main><script>
+function show(id){document.getElementById('search').value='';document.querySelectorAll('section').forEach(s=>s.classList.toggle('visible',s.id===id));document.querySelectorAll('nav button').forEach(b=>{b.hidden=false;b.classList.toggle('active',b.dataset.target===id)});document.getElementById('no-results').style.display='none';window.scrollTo(0,0)}
+function searchGuide(q){q=q.trim().toLowerCase();if(!q){show('start');return}let n=0;document.querySelectorAll('section').forEach(s=>{let hit=s.innerText.toLowerCase().includes(q)||s.textContent.toLowerCase().includes(q);s.classList.toggle('visible',hit);if(hit)n++;let b=document.querySelector('[data-target="'+s.id+'"]');b.hidden=!hit;b.classList.remove('active')});document.getElementById('no-results').style.display=n?'none':'block'}
+document.querySelectorAll('pre').forEach(p=>{let b=document.createElement('button');b.textContent='Copy';b.className='copy';b.onclick=()=>{let t=document.createElement('textarea');t.value=p.querySelector('code').textContent;document.body.append(t);t.select();document.execCommand('copy');t.remove();b.textContent='Copied';setTimeout(()=>b.textContent='Copy',1000)};p.prepend(b)});show('start');
+</script></html>

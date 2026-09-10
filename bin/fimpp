@@ -1,0 +1,13 @@
+#!/bin/sh
+set -eu
+fimpp_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+if [ -n "${FIMPP_JAVA_HOME:-}" ]; then
+    fimpp_java="$FIMPP_JAVA_HOME/bin/java"
+elif [ -n "${JAVA_HOME:-}" ]; then
+    fimpp_java="$JAVA_HOME/bin/java"
+elif [ "$(uname -s)" = Darwin ] && fimpp_home=$(/usr/libexec/java_home -v 1.8 2>/dev/null); then
+    fimpp_java="$fimpp_home/bin/java"
+else
+    fimpp_java=java
+fi
+exec "$fimpp_java" -jar "$fimpp_dir/Fimpp.jar" "$@"

@@ -1,0 +1,5 @@
+node_modules/
+build/
+build.log
+vendor/*.zip
+vendor/windows-x64/

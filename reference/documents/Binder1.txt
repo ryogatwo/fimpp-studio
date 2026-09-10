@@ -1,0 +1,132 @@
+
+=== PAGE 1 ===
+11/20/2019 Applejack's Hat | FiM++ Wiki | FANDOM powered by Wikia
+https://fimpp.fandom.com/wiki/Applejack%27s_Hat 1/1
+Community content is available under CC-BY-SA unless otherwise noted.
+Categories: Add category
+The Applejack's Hat scenario is one that was used to work out how variables should work in FiM++ when it was first being proposed. This particular phrase was used because it represents
+several decisions about how the language, as a whole, should work.
+Challenges 
+Edit
+"Applejack's Hat" must be used as a variable name, as it is mundane enough that users of the language will expect it to be valid
+It contains whitespace, something most other programming languages prohibit in keywords.
+It contains both lower- and upper-case letters.
+It contains an apostrophe
+Resolutions 
+Edit
+The following were changes made to the language to accommodate for Applejack's hat. These affect how character literals are defined, what is valid punctuation, and what is a valid variable,
+class, and paragraph name.
+Names may contain any UTF-8 character that does not conflict with other restrictions
+Names may contain any whitespace character, and variable declaration ends when a keyword or punctuation is encountered
+Names are case-sensitive
+Names may contain operators and literals as long as they are after the first character of the word.
+Other similar propositional variable names 
+Edit
+Valid names 
+Edit
+These were also used as examples for what must be a valid variable name:
+how to add all the Numbers from 1 to 100
+Contains an alternate capitalization of the "the numbers" reserved keyword, as well as two number literals
+Somepony’s true identity
+Contains an apostrophe and a Boolean literal
+Team Fortress 2
+Contains a number literal
+Invalid Names 
+Edit
+These were used as examples for what might seem like valid variable names, but are not.
+Twilight's favorite number
+Contains a reserved keyword phrase
+99 Jugs of Cider
+Contains a literal at the beginning
+See Also 
+Edit
+99 Jugs of Cider
+Retrieved from "https://fimpp.fandom.com/wiki/Applejack%27s_Hat?oldid=4885"
+Contents[show]
+Applejack's Hat
+Win a Trip to C2E2 in theFanta Fan Art Challenge
+
+=== PAGE 2 ===
+11/20/2019 Program:100 Mississipis | FiM++ Wiki | FANDOM powered by Wikia
+https://fimpp.fandom.com/wiki/Program:100_Mississipis 1/1
+Community content is available under CC-BY-SA unless otherwise noted.
+Categories: Add category
+The 100 Mississipis program is similar to the 99 Jugs Of Cider program, but is much simpler and was created by Meowflash.
+Example
+Edit
+Dear Princess Celestia: 100 Mississipis
+Today I learned how to count to 100. Did you know that the number miss was 1? As long as miss was no more than 100, I said miss"
+Mississipi(s)". miss got one more. That's what I did! That's all about how to count to 100!
+Your faithful student, Meowflash.
+Retrieved from "https://fimpp.fandom.com/wiki/Program:100_Mississipis?oldid=4927"
+Program:100 Mississipis
+Win a Trip to C2E2 in theFanta Fan Art Challenge
+
+=== PAGE 3 ===
+11/20/2019 Program:Hello World | FiM++ Wiki | FANDOM powered by Wikia
+https://fimpp.fandom.com/wiki/Program:Hello_World 1/1
+Community content is available under CC-BY-SA unless otherwise noted.
+A program that simply uses one paragraph to print "Hello World" and exits:
+Dear Princess Celestia:Hello World!
+Today I learned how to say hello world!
+I said “Hello, World!”!
+That's all about how to say hello world.
+Your faithful student, Kyli Rouge.
+See Also
+Program:Jugs of Cider
+Retrieved from "https://fimpp.fandom.com/wiki/Program:Hello_World?oldid=4939"
+Program:Hello World
+Win a Trip to C2E2 in theFanta Fan Art Challenge
+
+=== PAGE 4 ===
+11/20/2019 Program:Jugs of Cider | FiM++ Wiki | FANDOM powered by Wikia
+https://fimpp.fandom.com/wiki/Program:Jugs_of_Cider 1/2
+The Jugs of Cider program is a good one for testing the syntax of a complete program. The goal is to print out the 99 Jugs of Cider song. The below implementation includes an import, a
+superclass, an implemented interface, multiple methods, variables, literals, different types of nested branching statements, and comments.
+Example 
+Edit
+Remember when I wrote about Applejack? (I don't!)
+Dear Princess Cadence and Shining Armor: Cider Jugs.
+Today I learned Applejack's Drinking Song.
+Did you know that Applejack likes the number 99? (Applejack likes a lot of things...)
+I remembered how to sing the drinking song using Applejack.
+That's all about Applejack's Drinking Song!
+I learned how to sing the drinking song using the number ciders.
+As long as ciders were more than 1.
+I sang ciders" jugs of cider on the wall, "ciders" jugs of cider,".
+There was one less ciders.
+When ciders had more than 1, I sang "Take one down and pass it around, "ciders" jugs of cider on the wall."!
+Otherwise, I sang "Take one down and pass it around, 1 jug of cider on the wall."!
+That's what I would do, That's what I did.
+I sang "1 jug of cider on the wall, 1 jug of cider.
+Take it down and pass it around, no more jugs of cider on the wall.
+No more jugs of cider on the wall, no more jugs of cider.
+Go to the celler, get some more, 99 jugs of cider on the wall.".
+That's what I did.
+That's all about how to sing the Drinking Song!
+Your faithful student, Twilight Sparkle.
+P.S. Twilight's drunken state truely frightened me, so I couldn't disregard her order to send you this letter. Who would have thought her
+first reaction to hard cider would be this... explosive? I need your advice, your help, everything, on how to deal with her drunk... self.
+-Spike
+As a Scroll 
+Edit
+Here's the same program written for Layman's readability:
+Remember when I wrote about Applejack? (I don't!)
+Dear Princess Cadence and Shining Armor: Cider Jugs.
+Today I learned Applejack's Drinking Song. Did you know that Applejack likes the number 99? (Applejack likes a lot of things...) I remembered how to sing the
+drinking song using Applejack. That's all about Applejack's Drinking Song!
+I learned how to sing the drinking song using the number ciders. As long as ciders were more than 1, I sang cider" jugs of cider on the wall, "cider" jugs of
+cider,". There was one less cider. When cider had more than 1, I sang "Take one down and pass it around, "cider" jugs of cider on the wall."! Otherwise, I sang "Take one
+down and pass it around, 1 jug of cider on the wall."! That's what I would do, That's what I did.
+I sang "1 jug of cider on the wall, 1 jug of cider. Take it down and pass it around, no more jugs of cider on the wall. No more jugs of cider on the wall, no more
+jugs of cider. Go to the celler, get some more, 99 jugs of cider on the wall.". That's what I did! That's all about how to sing the Drinking Song!
+Your faithful student,
+Twilight Sparkle.
+P.S. Twilight's drunken state truely frightened me, so I couldn't disregard her order to send you this letter. Who would have thought her first reaction to hard cider
+would be this... explosive? I need your advice, your help, everything, on how to deal with her drunk... self. -Spike
+See Also 
+Edit
+Applejack's Hat
+Program:100 Mississipis
+Program:Jugs of Cider
+Win a Trip to C2E2 in theFanta Fan Art Challenge

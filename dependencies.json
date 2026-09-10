@@ -1,0 +1,6 @@
+{
+  "lib/scala-parser-combinators_2.11-1.0.2.jar": "9f92780c9727a6b41c35c9b69e93fb76dcadc299838157a4b42d09a970656949",
+  "lib/scala-reflect-2.11.1.jar": "41938d1e89670979dd783102777a8b879999f4fb00a5b811b51c105b02a9d4f8",
+  "lib/scala-library-2.11.1.jar": "088bcb80f71b6e6a2a31d2fe7288c1fd64f19663ce281b924cdfab3fb105f4f3",
+  "tools/scala-compiler-2.11.1.jar": "3aa616f5c56d2052fc5e3231f3e8cf1736f876caff0142a66096fc5b4dc87ae5"
+}

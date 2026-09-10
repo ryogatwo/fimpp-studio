@@ -1,0 +1,82 @@
+[
+  {
+    "file": "hello",
+    "title": "Hello, Equestria"
+  },
+  {
+    "file": "postscripts",
+    "title": "Postscripts"
+  },
+  {
+    "file": "books",
+    "title": "Books & arrays"
+  },
+  {
+    "file": "input",
+    "title": "Program input"
+  },
+  {
+    "file": "99bottles",
+    "title": "99 Jugs of Cider"
+  },
+  {
+    "file": "bf",
+    "title": "Brainf*** interpreter"
+  },
+  {
+    "file": "busybeaver",
+    "title": "Busy Beaver"
+  },
+  {
+    "file": "eratosthenes",
+    "title": "Prime number sieve"
+  },
+  {
+    "file": "factor",
+    "title": "Prime factors"
+  },
+  {
+    "file": "factorials",
+    "title": "Factorials"
+  },
+  {
+    "file": "fibonacci",
+    "title": "Fibonacci"
+  },
+  {
+    "file": "fizzbuzz",
+    "title": "FizzBuzz"
+  },
+  {
+    "file": "fourth_power",
+    "title": "Fourth powers"
+  },
+  {
+    "file": "gcd",
+    "title": "Greatest common divisor"
+  },
+  {
+    "file": "multiples",
+    "title": "Multiples"
+  },
+  {
+    "file": "odd_even",
+    "title": "Odd and even numbers"
+  },
+  {
+    "file": "quicksort",
+    "title": "Quicksort"
+  },
+  {
+    "file": "squared_cubed",
+    "title": "Squares and cubes"
+  },
+  {
+    "file": "swing",
+    "title": "Swing window"
+  },
+  {
+    "file": "gui_calculator",
+    "title": "Calculator"
+  }
+]

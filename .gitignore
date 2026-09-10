@@ -1,0 +1,14 @@
+# Local build outputs and caches
+.DS_Store
+__pycache__/
+*.pyc
+/build/
+/native-app/build/
+/native-app/vendor/*.tar.gz
+/native-app/vendor/arm64/
+/native-app/vendor/x86_64/
+/windows-app/build/
+/windows-app/build.log
+/windows-app/node_modules/
+/windows-app/vendor/*.zip
+/windows-app/vendor/windows-x64/

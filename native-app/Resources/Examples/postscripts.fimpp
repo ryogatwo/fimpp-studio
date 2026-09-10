@@ -1,0 +1,12 @@
+Dear Princess Celestia: An example letter.
+
+Today I learned about greetings:
+    I said "Hello, Equestria". P.S.This inline note is ignored.
+
+Your faithful student, Twilight Sparkle.
+
+PS This note is ignored by the interpreter.
+PSS I said "This must not execute".
+P.S. Dotted postscripts work too.
+P.P.S.This spelling is in the language specification.
+pss Lowercase works without final punctuation

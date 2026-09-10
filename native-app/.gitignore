@@ -1,0 +1,4 @@
+build/
+vendor/*.tar.gz
+vendor/arm64/
+vendor/x86_64/

@@ -1,0 +1,29 @@
+const path=require('node:path'),fs=require('node:fs/promises'),crypto=require('node:crypto');
+const {execFileSync}=require('node:child_process');
+const {packager}=require('@electron/packager');const {build,Platform,Arch}=require('electron-builder');
+const root=path.resolve(__dirname,'..'),compilerRoot=path.dirname(root),out=path.join(root,'build'),resources=path.join(out,'StudioResources');
+async function main(){
+ await fs.mkdir(out,{recursive:true});await fs.rm(resources,{recursive:true,force:true});await fs.mkdir(resources,{recursive:true});
+ const pkg=JSON.parse(await fs.readFile(path.join(root,'package.json'),'utf8'));
+ for(const folder of ['Examples','Guide'])await fs.cp(path.join(compilerRoot,'native-app/Resources',folder),path.join(resources,folder),{recursive:true});
+ let guide=await fs.readFile(path.join(resources,'Guide/index.html'),'utf8');guide=guide.replaceAll('⇧⌘','Ctrl+Shift+').replaceAll('⌘','Ctrl+').replaceAll('Standard macOS document autosave and unsaved-change prompts apply.','Unsaved-change prompts appear before closing a letter or exiting. Save your letters regularly with Ctrl+S.').replaceAll('macOS smart-quote substitution','Smart-quote substitution').replaceAll('Native AppKit editor and offline WebKit reference.','Windows desktop editor and offline reference.').replaceAll('Intel or Apple Silicon','Windows x64').replaceAll('Intel and Apple Silicon','Windows x64').replaceAll('for arm64 and x86_64','for Windows x64');
+ guide=guide.replaceAll('Each letter has its own window, undo history, and console.','Each letter has its own tab, undo history, and console.');
+ guide=guide.replace('</script></html>',"window.addEventListener('message',e=>{if(e.source===parent&&['light','dark'].includes(e.data?.studioTheme))document.documentElement.dataset.theme=e.data.studioTheme;});</script></html>");
+ await fs.writeFile(path.join(resources,'Guide/index.html'),guide);
+ const metadata=JSON.parse(await fs.readFile(path.join(root,'vendor/windows-x64.json'),'utf8'));
+ const archive=await fs.readFile(path.join(root,'vendor/windows-x64.zip'));if(crypto.createHash('sha256').update(archive).digest('hex')!==metadata[0].binary.package.checksum)throw Error('Runtime checksum mismatch');
+ const dirs=await fs.readdir(path.join(root,'vendor/windows-x64'));await fs.cp(path.join(root,'vendor/windows-x64',dirs[0]),path.join(resources,'runtime'),{recursive:true});
+ await fs.copyFile(path.join(compilerRoot,'bin/Fimpp.jar'),path.join(resources,'Fimpp.jar'));await fs.copyFile(path.join(compilerRoot,'LICENSE'),path.join(resources,'LICENSE-FiMpp.txt'));await fs.writeFile(path.join(resources,'runtime-provenance.json'),JSON.stringify(metadata,null,2)+'\n');
+ const val=path.join(resources,'Validation');await fs.mkdir(val);for(const p of await fs.readdir(path.join(compilerRoot,'build/reference-tests')))if(p.endsWith('.class'))await fs.copyFile(path.join(compilerRoot,'build/reference-tests',p),path.join(val,p));
+ await fs.cp(path.join(compilerRoot,'build/reference-tests/regression'),path.join(val,'regression'),{recursive:true});
+ await fs.copyFile(path.join(compilerRoot,'test/reference/input.tsv'),path.join(val,'input.tsv'));
+ const cases=JSON.parse(await fs.readFile(path.join(compilerRoot,'reference-regression.json'),'utf8')).filter(c=>c.dialect==='legacy');await fs.writeFile(path.join(val,'expected.json'),JSON.stringify({compiler:crypto.createHash('sha256').update(await fs.readFile(path.join(resources,'Fimpp.jar'))).digest('hex'),cases}));
+ const stage=path.join(out,'app');await fs.rm(stage,{recursive:true,force:true});await fs.mkdir(stage);await fs.cp(path.join(root,'app'),stage,{recursive:true});await fs.writeFile(path.join(stage,'package.json'),JSON.stringify({...pkg,main:'main.cjs',devDependencies:undefined,scripts:undefined}));
+ const icon=path.join(out,'Studio.ico');const python=process.env.FIM_BUILD_PYTHON||'python3';
+ execFileSync(python,['-c','from PIL import Image; import sys; Image.open(sys.argv[1]).save(sys.argv[2],sizes=[(16,16),(32,32),(48,48),(64,64),(128,128),(256,256)])',path.join(root,'assets/Studio.png'),icon]);
+ const [appPath]=await packager({dir:stage,out,name:'FiM++ Studio',executableName:'FiM++ Studio',appVersion:pkg.version,buildVersion:'3',platform:'win32',arch:'x64',electronVersion:pkg.devDependencies.electron,asar:true,overwrite:true,prune:false,extraResource:[resources],icon,win32metadata:{CompanyName:'RyogaTwo',FileDescription:'FiM++ Studio',ProductName:'FiM++ Studio',InternalName:'FiMStudio',OriginalFilename:'FiM++ Studio.exe'},windowsSign:undefined});
+ process.env.CSC_IDENTITY_AUTO_DISCOVERY='false';
+ const artifacts=await build({projectDir:root,publish:'never',prepackaged:appPath,targets:Platform.WINDOWS.createTarget(['nsis','portable'],Arch.x64),config:{appId:'com.ryogatwo.fimstudio',productName:'FiM++ Studio',copyright:'Created by: RyogaTwo. FiM++ © Karol Stasiak and contributors.',directories:{output:path.join(out,'release'),buildResources:out},compression:'normal',win:{icon,executableName:'FiM++ Studio',signExecutable:false,signAndEditExecutable:false},fileAssociations:[{ext:['fimpp','fpp'],name:'FiM++ Letter',description:'FiM++ source letter',role:'Editor'}],nsis:{oneClick:false,perMachine:false,allowToChangeInstallationDirectory:true,createDesktopShortcut:true,createStartMenuShortcut:true,runAfterFinish:false,deleteAppDataOnUninstall:false,installerIcon:icon,uninstallerIcon:icon,artifactName:'FiMpp-Studio-Setup-${version}-x64.exe'},portable:{artifactName:'FiMpp-Studio-Portable-${version}-x64.exe'}}});
+ console.log(JSON.stringify({appPath,artifacts},null,2));await fs.writeFile(path.join(out,'artifacts.json'),JSON.stringify({appPath,artifacts},null,2)+'\n');
+}
+main().catch(e=>{console.error(e);process.exit(1);});
