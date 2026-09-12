@@ -2,7 +2,7 @@
   "Endpoint": "https://eus.codesigning.azure.net/",
   "CodeSigningAccountName": "YOUR_SIGNING_ACCOUNT",
   "CertificateProfileName": "YOUR_CERTIFICATE_PROFILE",
-  "CorrelationId": "fimpp-studio-windows-1.2.2",
+  "CorrelationId": "fimpp-studio-windows-1.2.3",
   "ExcludeCredentials": [
     "EnvironmentCredential",
     "ManagedIdentityCredential",

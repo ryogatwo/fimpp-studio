@@ -1,4 +1,4 @@
-# FiM++ Studio 1.2.2
+# FiM++ Studio 1.2.3
 
 Created by: RyogaTwo
 
@@ -22,7 +22,7 @@ Open **FiM++ Studio.app**, or drag it into Applications first. No Java, Python, 
 
 The guide covers this compiler's supported original dialect. It explicitly documents the remaining Sparkle 1.0 gaps. This app does not add a new Sparkle language mode.
 
-## Version 1.2.2
+## Version 1.2.3
 
 A− / A+ toolbar buttons resize the editor from 10 to 40 points. The chosen size is remembered for new letters and future launches. Reference body text and code examples are larger.
 
@@ -72,3 +72,7 @@ The console stops programs that exceed 1 MB of output. Source files are UTF-8. P
 FiM++ is copyright Karol Stasiak and contributors, GPLv3 or later. This distribution's editor source is supplied under GPLv3 or later as part of the same project; see the parent LICENSE.
 
 The bundled Eclipse Temurin OpenJDK runtimes include their legal notices and are distributed under GPLv2 with the Classpath Exception. Official build provenance, version, and release download links are in `vendor/*.json` and the app's `Contents/Resources/Licenses/runtime-provenance.json`. Scala runtime licenses are retained in the compiler JAR. Apple system frameworks are not redistributed.
+
+## Layout and editor actions
+
+Run and Stop follow Clear Output in the OUTPUT header. The EDITOR header provides Undo, Redo, Copy, and Paste. The reference starts at the same width as the editor/output area. Resize the dividers to suit your work; new letters and examples retain the current layout.

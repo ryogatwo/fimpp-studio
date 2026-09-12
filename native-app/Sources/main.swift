@@ -182,9 +182,15 @@ final class EditorWindow: NSWindowController, NSTextViewDelegate, NSWindowDelega
     var exitStatus: Int32?
     var guideVisible = true
     var scrollObserver: NSObjectProtocol?
+    var inheritedLayout: (frame: NSRect, work: CGFloat, editor: CGFloat, guide: Bool, font: CGFloat)?
+    var referenceSplit: CGFloat = 0.5
 
     init(document: FiMDocument) {
         letter = document
+        if let previous = NSApp.keyWindow?.windowController as? EditorWindow, let frame = previous.window?.frame {
+            inheritedLayout = (frame, previous.guideVisible ? previous.workSplit.frame.width / max(1, previous.mainSplit.bounds.width) : previous.referenceSplit,
+                               previous.workSplit.arrangedSubviews[0].frame.height / max(1, previous.workSplit.bounds.height), previous.guideVisible, previous.editor.font?.pointSize ?? 14)
+        }
         let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 1220, height: 810), styleMask: [.titled, .closable, .miniaturizable, .resizable], backing: .buffered, defer: false)
         window.title = "Untitled — FiM++ Studio"
         window.minSize = NSSize(width: 850, height: 570)
@@ -196,6 +202,8 @@ final class EditorWindow: NSWindowController, NSTextViewDelegate, NSWindowDelega
         loadSource()
         window.center()
         window.setFrameAutosaveName("FiMStudioEditor")
+        shouldCascadeWindows = false
+        if let layout = inheritedLayout { window.setFrame(layout.frame, display: false) }
     }
     required init?(coder: NSCoder) { fatalError() }
 
@@ -224,12 +232,11 @@ final class EditorWindow: NSWindowController, NSTextViewDelegate, NSWindowDelega
         toolbar.addArrangedSubview(reference)
         stopButton.target = self; stopButton.action = #selector(stopProgram(_:)); stopButton.isEnabled = false
         stopButton.image = NSImage(systemSymbolName: "stop.fill", accessibilityDescription: nil)
-        stopButton.imagePosition = .imageLeading; toolbar.addArrangedSubview(stopButton)
+        stopButton.imagePosition = .imageLeading
         runButton.target = self; runButton.action = #selector(runProgram(_:))
         runButton.image = NSImage(systemSymbolName: "play.fill", accessibilityDescription: nil)
         runButton.imagePosition = .imageLeading
         runButton.bezelStyle = .rounded; runButton.contentTintColor = .systemPurple
-        toolbar.addArrangedSubview(runButton)
         for button in [stopButton, reference] { button.bezelStyle = .rounded }
 
         mainSplit.isVertical = true; mainSplit.dividerStyle = .thin
@@ -239,10 +246,12 @@ final class EditorWindow: NSWindowController, NSTextViewDelegate, NSWindowDelega
         let outputTitle = NSTextField(labelWithString: "OUTPUT")
         outputTitle.font = .systemFont(ofSize: 10, weight: .bold); outputTitle.textColor = .secondaryLabelColor
         runLabel.font = .systemFont(ofSize: 11); runLabel.textColor = .secondaryLabelColor
-        let clear = NSButton(title: "Clear", target: self, action: #selector(clearConsole(_:)))
+        let clear = NSButton(title: "Clear Output", target: self, action: #selector(clearConsole(_:)))
         let go = NSButton(title: "Go to error", target: self, action: #selector(goToError(_:)))
-        let outputBar = NSStackView(views: [outputTitle, NSView(), runLabel, go, clear])
-        outputBar.spacing = 10; outputBar.edgeInsets = NSEdgeInsets(top: 7, left: 14, bottom: 7, right: 10)
+        let outputBar = NSStackView(views: [outputTitle, NSView(), runLabel, go, clear, runButton, stopButton])
+        for button in [go, clear, runButton, stopButton] { button.controlSize = .small; button.font = .systemFont(ofSize: 11) }
+        runLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        outputBar.spacing = 5; outputBar.edgeInsets = NSEdgeInsets(top: 7, left: 14, bottom: 7, right: 10)
         console.isEditable = false; console.isSelectable = true
         console.font = .monospacedSystemFont(ofSize: 12, weight: .regular)
         console.textColor = .textColor; console.backgroundColor = .textBackgroundColor
@@ -266,13 +275,24 @@ final class EditorWindow: NSWindowController, NSTextViewDelegate, NSWindowDelega
             outputScroll.leadingAnchor.constraint(equalTo: outputPanel.leadingAnchor), outputScroll.trailingAnchor.constraint(equalTo: outputPanel.trailingAnchor), outputScroll.topAnchor.constraint(equalTo: outputBar.bottomAnchor), outputScroll.bottomAnchor.constraint(equalTo: inputBar.topAnchor)
         ])
         let editorPanel = NSView()
+        let editorTitle = NSTextField(labelWithString: "EDITOR")
+        editorTitle.font = .systemFont(ofSize: 10, weight: .bold); editorTitle.textColor = .secondaryLabelColor
+        let editorBar = NSStackView(views: [editorTitle, NSView()])
+        editorBar.spacing = 6; editorBar.edgeInsets = NSEdgeInsets(top: 7, left: 14, bottom: 7, right: 10)
+        for (title, action) in [("Undo", #selector(undoEditor(_:))), ("Redo", #selector(redoEditor(_:))), ("Copy", #selector(copyEditor(_:))), ("Paste", #selector(pasteEditor(_:)))] {
+            let button = NSButton(title: title, target: self, action: action)
+            button.controlSize = .small; button.font = .systemFont(ofSize: 11)
+            editorBar.addArrangedSubview(button)
+        }
+        editorBar.translatesAutoresizingMaskIntoConstraints = false; editorPanel.addSubview(editorBar)
+        NSLayoutConstraint.activate([editorBar.topAnchor.constraint(equalTo: editorPanel.topAnchor), editorBar.leadingAnchor.constraint(equalTo: editorPanel.leadingAnchor), editorBar.trailingAnchor.constraint(equalTo: editorPanel.trailingAnchor), editorBar.heightAnchor.constraint(equalToConstant: 34)])
         if let gutter = ruler {
             gutter.translatesAutoresizingMaskIntoConstraints = false
             editorScroll.translatesAutoresizingMaskIntoConstraints = false
             editorPanel.addSubview(gutter); editorPanel.addSubview(editorScroll)
             NSLayoutConstraint.activate([
-                gutter.leadingAnchor.constraint(equalTo: editorPanel.leadingAnchor), gutter.topAnchor.constraint(equalTo: editorPanel.topAnchor), gutter.bottomAnchor.constraint(equalTo: editorPanel.bottomAnchor), gutter.widthAnchor.constraint(equalToConstant: 48),
-                editorScroll.leadingAnchor.constraint(equalTo: gutter.trailingAnchor), editorScroll.trailingAnchor.constraint(equalTo: editorPanel.trailingAnchor), editorScroll.topAnchor.constraint(equalTo: editorPanel.topAnchor), editorScroll.bottomAnchor.constraint(equalTo: editorPanel.bottomAnchor)
+                gutter.leadingAnchor.constraint(equalTo: editorPanel.leadingAnchor), gutter.topAnchor.constraint(equalTo: editorBar.bottomAnchor), gutter.bottomAnchor.constraint(equalTo: editorPanel.bottomAnchor), gutter.widthAnchor.constraint(equalToConstant: 48),
+                editorScroll.leadingAnchor.constraint(equalTo: gutter.trailingAnchor), editorScroll.trailingAnchor.constraint(equalTo: editorPanel.trailingAnchor), editorScroll.topAnchor.constraint(equalTo: editorBar.bottomAnchor), editorScroll.bottomAnchor.constraint(equalTo: editorPanel.bottomAnchor)
             ])
         }
         workSplit.addArrangedSubview(editorPanel); workSplit.addArrangedSubview(outputPanel)
@@ -295,11 +315,24 @@ final class EditorWindow: NSWindowController, NSTextViewDelegate, NSWindowDelega
             editorScroll.heightAnchor.constraint(greaterThanOrEqualToConstant: 200), outputPanel.heightAnchor.constraint(greaterThanOrEqualToConstant: 130)
         ])
         DispatchQueue.main.async { [weak self] in
-            self?.mainSplit.setPosition(790, ofDividerAt: 0)
-            self?.workSplit.setPosition(470, ofDividerAt: 0)
-            self?.window?.makeFirstResponder(self?.editor)
+            guard let self = self else { return }
+            self.window?.contentView?.layoutSubtreeIfNeeded()
+            let work = self.inheritedLayout?.work ?? 0.5
+            self.referenceSplit = work
+            self.mainSplit.setPosition(self.mainSplit.bounds.width * work, ofDividerAt: 0)
+            self.workSplit.setPosition(self.workSplit.bounds.height * (self.inheritedLayout?.editor ?? 0.65), ofDividerAt: 0)
+            if let layout = self.inheritedLayout {
+                self.editor.font = .monospacedSystemFont(ofSize: layout.font, weight: .regular)
+                self.guideVisible = layout.guide; self.guideView.isHidden = !layout.guide
+                self.mainSplit.adjustSubviews()
+            }
+            self.window?.makeFirstResponder(self.editor)
         }
     }
+    @objc func undoEditor(_ sender: Any?) { window?.makeFirstResponder(editor); editor.undoManager?.undo() }
+    @objc func redoEditor(_ sender: Any?) { window?.makeFirstResponder(editor); editor.undoManager?.redo() }
+    @objc func copyEditor(_ sender: Any?) { window?.makeFirstResponder(editor); editor.copy(sender) }
+    @objc func pasteEditor(_ sender: Any?) { window?.makeFirstResponder(editor); editor.pasteAsPlainText(sender) }
 
     func setupEditor() {
         editor.isRichText = false; editor.allowsUndo = true; editor.isEditable = true
@@ -370,9 +403,10 @@ final class EditorWindow: NSWindowController, NSTextViewDelegate, NSWindowDelega
         storage.endEditing(); highlighting = false; ruler?.needsDisplay = true
     }
     @objc func toggleGuide(_ sender: Any?) {
+        if guideVisible { referenceSplit = workSplit.frame.width / max(1, mainSplit.bounds.width) }
         guideVisible.toggle(); guideView.isHidden = !guideVisible
         mainSplit.adjustSubviews()
-        if guideVisible { mainSplit.setPosition(max(420, mainSplit.bounds.width-400), ofDividerAt: 0) }
+        if guideVisible { mainSplit.setPosition(mainSplit.bounds.width * referenceSplit, ofDividerAt: 0) }
     }
     @objc func selectExample(_ sender: NSPopUpButton) {
         let index = sender.indexOfSelectedItem

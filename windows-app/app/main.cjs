@@ -1,4 +1,4 @@
-const {app,BrowserWindow,Menu,dialog,ipcMain,nativeTheme,shell}=require('electron');
+const {app,BrowserWindow,Menu,dialog,ipcMain,nativeTheme,shell,clipboard}=require('electron');
 const fs=require('node:fs/promises'),path=require('node:path');
 const {fileURLToPath,pathToFileURL}=require('node:url');
 const {LetterRunner}=require('./runner.cjs');
@@ -38,6 +38,7 @@ async function command(name,arg){switch(name){
  case 'example':{const e=catalog.find(e=>e.file===arg);if(!e)throw Error('Unknown example');newLetter(await fs.readFile(path.join(resourceRoot,'Examples',e.file+'.fimpp'),'utf8'),e.title);return;}
  case 'run':{const d=getDoc(arg);if(d.runner)return;const runner=new LetterRunner({java,jar,onOutput:text=>send('output',{id:d.id,text}),onEnd:result=>{d.runner=null;send('ended',{id:d.id,...result});changed();}});d.runner=runner;send('started',{id:d.id});changed();await runner.start(d.text,d.file?path.dirname(d.file):undefined);return;}
  case 'stop':getDoc(arg).runner?.stop();return;case 'input':getDoc(arg.id).runner?.input(arg.text);return;case 'eof':getDoc(arg).runner?.eof();return;
+ case 'clipboardText':return clipboard.readText();
  case 'fontSize':if(!Number.isInteger(arg)||arg<10||arg>40)throw Error('Invalid font size');fontSize=arg;settingsWrite=settingsWrite.then(()=>fs.writeFile(settingsPath,JSON.stringify({theme,fontSize})+'\n'));await settingsWrite;return;
  case 'theme':setTheme(arg);return;
  default:throw Error('Unknown command');}}

@@ -1,4 +1,4 @@
-# FiM++ Studio 1.2.2 for Windows
+# FiM++ Studio 1.2.3 for Windows
 
 Created by: RyogaTwo
 
@@ -6,8 +6,8 @@ A standalone Windows x64 desktop edition of FiM++ Studio. It includes the same m
 
 ## Run or install
 
-- **FiMpp-Studio-Portable-1.2.2-x64.exe**: a single EXE that extracts its bundled runtime to a temporary directory and launches Studio without installation. Keep your letters in your own folder. Appearance preferences are saved in the Windows user profile.
-- **FiMpp-Studio-Setup-1.2.2-x64.exe**: the installer, with destination selection, Start menu/Desktop shortcuts, `.fimpp`/`.fpp` file associations, and an uninstaller. Uninstalling preserves user settings and letters.
+- **FiMpp-Studio-Portable-1.2.3-x64.exe**: a single EXE that extracts its bundled runtime to a temporary directory and launches Studio without installation. Keep your letters in your own folder. Appearance preferences are saved in the Windows user profile.
+- **FiMpp-Studio-Setup-1.2.3-x64.exe**: the installer, with destination selection, Start menu/Desktop shortcuts, `.fimpp`/`.fpp` file associations, and an uninstaller. Uninstalling preserves user settings and letters.
 
 Official release executables are signed and timestamped with Azure Artifact Signing. The architecture is x64 for Windows 10/11; Windows on ARM can run the x64 build through Windows emulation. See the validation reports for the exact tested OS and architecture.
 
@@ -50,4 +50,8 @@ Use A− / A+ in the toolbar or View → Smaller Text / Larger Text (10–40 pix
 
 ## Signing
 
-See [Windows signing setup](SIGNING.md). Official 1.2.2 builds use Azure Artifact Signing for the app, portable launcher, installer and uninstaller.
+See [Windows signing setup](SIGNING.md). Official 1.2.3 builds use Azure Artifact Signing for the app, portable launcher, installer and uninstaller.
+
+## Layout and editor actions
+
+Run and Stop follow Clear Output in the OUTPUT header. The EDITOR header provides Undo, Redo, Copy, and Paste. The reference starts at the same width as the editor/output area. Resize the dividers to suit your work; new letters and examples retain the current layout.
