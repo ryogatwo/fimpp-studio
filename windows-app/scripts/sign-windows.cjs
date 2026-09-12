@@ -4,7 +4,7 @@ const path=require('node:path'),fs=require('node:fs'),crypto=require('node:crypt
 const vm=process.env.FIM_SIGNING_VM;
 const quote=s=>"'"+s.replaceAll("'","''")+"'";
 function windowsPath(p){p=path.resolve(p);if(process.platform==='win32')return p;if(!p.startsWith('/Users/'))throw Error('Signing input must be accessible through the Parallels AllFiles share');return '\\\\Mac\\AllFiles'+p.replaceAll('/','\\');}
-function run(command){const args=['-NoProfile','-Command',command];return execFileSync(process.platform==='win32'?'powershell.exe':'prlctl',process.platform==='win32'?args:['exec',vm,'--current-user','powershell.exe',...args],{encoding:'utf8',timeout:180000,maxBuffer:4*1024*1024});}
+function run(command){const args=['-NoProfile','-Command',command];return execFileSync(process.platform==='win32'?'powershell.exe':'prlctl',process.platform==='win32'?args:['exec',vm,'--current-user','--use-advanced-terminal','powershell.exe',...args],{encoding:'utf8',timeout:180000,maxBuffer:4*1024*1024});}
 async function sign(configuration){
  const file=path.resolve(configuration.path),metadata=process.env.FIM_SIGNING_METADATA;
  if(!metadata)throw Error('Set FIM_SIGNING_METADATA to your private signing metadata file');
