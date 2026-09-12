@@ -4,16 +4,16 @@
 
 A standalone editor and runner for FiM++ letters, with an offline coding guide. Create, edit, save, and run letters without installing Java or other runtimes separately.
 
-## Download version 1.2.3
+## Download version 1.2.4
 
 | Platform | Download |
 | --- | --- |
-| macOS 12 or later — Intel and Apple Silicon | [Universal Mac app ZIP](https://github.com/ryogatwo/fimpp-studio/releases/download/v1.2.3/FiM++-Studio-1.2.3-macOS-Universal.zip) |
-| Windows x64 — run without installation | [Portable EXE](https://github.com/ryogatwo/fimpp-studio/releases/download/v1.2.3/FiMpp-Studio-Portable-1.2.3-x64.exe) |
-| Windows x64 — install with shortcuts and file associations | [Windows installer](https://github.com/ryogatwo/fimpp-studio/releases/download/v1.2.3/FiMpp-Studio-Setup-1.2.3-x64.exe) |
-| Complete compiler, Mac, and Windows source snapshot | [Source ZIP](https://github.com/ryogatwo/fimpp-studio/releases/download/v1.2.3/FiMpp-Studio-1.2.3-Complete-Source.zip) |
+| macOS 12 or later — Intel and Apple Silicon | [Universal Mac app ZIP](https://github.com/ryogatwo/fimpp-studio/releases/download/v1.2.4/FiM++-Studio-1.2.4-macOS-Universal.zip) |
+| Windows x64 — run without installation | [Portable EXE](https://github.com/ryogatwo/fimpp-studio/releases/download/v1.2.4/FiMpp-Studio-Portable-1.2.4-x64.exe) |
+| Windows x64 — install with shortcuts and file associations | [Windows installer](https://github.com/ryogatwo/fimpp-studio/releases/download/v1.2.4/FiMpp-Studio-Setup-1.2.4-x64.exe) |
+| Complete compiler, Mac, and Windows source snapshot | [Source ZIP](https://github.com/ryogatwo/fimpp-studio/releases/download/v1.2.4/FiMpp-Studio-1.2.4-Complete-Source.zip) |
 
-All eight files from the Desktop output folder are available on the [release page](https://github.com/ryogatwo/fimpp-studio/releases/tag/v1.2.3), including the original README files and [SHA256SUMS.txt](https://github.com/ryogatwo/fimpp-studio/releases/download/v1.2.3/SHA256SUMS.txt).
+All eight files from the Desktop output folder are available on the [release page](https://github.com/ryogatwo/fimpp-studio/releases/tag/v1.2.4), including the original README files and [SHA256SUMS.txt](https://github.com/ryogatwo/fimpp-studio/releases/download/v1.2.4/SHA256SUMS.txt).
 
 The Mac app is Developer ID signed, Apple notarized, and verified by Gatekeeper. The Windows app, portable EXE, installer and uninstaller are signed and timestamped with Azure Artifact Signing. Both platforms include their own Java runtime. The Windows application uses Electron; the Mac application uses native AppKit.
 

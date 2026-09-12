@@ -215,7 +215,7 @@ final class EditorWindow: NSWindowController, NSTextViewDelegate, NSWindowDelega
         let brand = NSTextField(labelWithString: "✦  FiM++ Studio")
         brand.font = .systemFont(ofSize: 14, weight: .semibold)
         toolbar.addArrangedSubview(brand)
-        toolbar.addArrangedSubview(NSView())
+        toolbar.setCustomSpacing(16, after: brand)
         for (title, action, hint) in [("A−", #selector(smallerText(_:)), "Decrease editor font size"), ("A+", #selector(biggerText(_:)), "Increase editor font size")] {
             let button = NSButton(title: title, target: self, action: action)
             button.toolTip = hint; button.setAccessibilityLabel(hint)
@@ -226,6 +226,7 @@ final class EditorWindow: NSWindowController, NSTextViewDelegate, NSWindowDelega
         examples.addItems(withTitles: Assets.examples.map { $0.title })
         examples.target = self; examples.action = #selector(selectExample(_:))
         toolbar.addArrangedSubview(examples)
+        toolbar.addArrangedSubview(NSView())
         let reference = NSButton(title: "Reference", target: self, action: #selector(toggleGuide(_:)))
         reference.image = NSImage(systemSymbolName: "book", accessibilityDescription: "Reference guide")
         reference.imagePosition = .imageLeading

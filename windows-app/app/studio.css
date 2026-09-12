@@ -10,3 +10,5 @@
 @media(forced-colors:active){.syntax-paint{display:none}.source-surface .source{color:CanvasText}}
 
 #outputHeader{gap:5px;padding-inline:8px;flex-shrink:0;flex-wrap:wrap}#editorHeader{flex-shrink:0}#runStatus{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:80px}#output{flex-shrink:0}#reference{flex-shrink:0;border-left:0}#referenceDivider{width:5px;flex-shrink:0;cursor:col-resize;background:var(--line);touch-action:none}#outputDivider{height:5px;flex-shrink:0;cursor:row-resize;background:var(--line);touch-action:none}#referenceDivider[hidden]{display:none}body.resizing iframe{pointer-events:none}
+
+header>strong{margin-right:7px}

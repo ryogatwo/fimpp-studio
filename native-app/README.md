@@ -1,4 +1,4 @@
-# FiM++ Studio 1.2.3
+# FiM++ Studio 1.2.4
 
 Created by: RyogaTwo
 
@@ -22,7 +22,7 @@ Open **FiM++ Studio.app**, or drag it into Applications first. No Java, Python, 
 
 The guide covers this compiler's supported original dialect. It explicitly documents the remaining Sparkle 1.0 gaps. This app does not add a new Sparkle language mode.
 
-## Version 1.2.3
+## Version 1.2.4
 
 A− / A+ toolbar buttons resize the editor from 10 to 40 points. The chosen size is remembered for new letters and future launches. Reference body text and code examples are larger.
 
