@@ -51,3 +51,5 @@ for(const [id,resize,axis] of [['referenceDivider',resizeReference,'clientX'],['
  handle.onlostpointercapture=()=>document.body.classList.remove('resizing');
  handle.onkeydown=e=>{if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key))return;e.preventDefault();const rect=handle.getBoundingClientRect();resize((axis==='clientX'?rect.left:rect.top)+(e.key==='ArrowRight'||e.key==='ArrowDown'?10:-10));};
 }
+
+new ResizeObserver(()=>document.documentElement.style.setProperty('--work-width',$('work').getBoundingClientRect().width+'px')).observe($('work'));

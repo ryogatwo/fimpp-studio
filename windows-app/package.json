@@ -1,7 +1,7 @@
 {
   "name": "fimpp-studio-windows",
   "productName": "FiM++ Studio",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "Standalone FiM++ letter editor, runner, and offline coding reference.",
   "author": "RyogaTwo",
   "license": "GPL-3.0-or-later",

@@ -214,18 +214,16 @@ final class EditorWindow: NSWindowController, NSTextViewDelegate, NSWindowDelega
         toolbar.edgeInsets = NSEdgeInsets(top: 10, left: 16, bottom: 10, right: 16)
         let brand = NSTextField(labelWithString: "✦  FiM++ Studio")
         brand.font = .systemFont(ofSize: 14, weight: .semibold)
-        toolbar.addArrangedSubview(brand)
-        toolbar.setCustomSpacing(16, after: brand)
-        for (title, action, hint) in [("A−", #selector(smallerText(_:)), "Decrease editor font size"), ("A+", #selector(biggerText(_:)), "Increase editor font size")] {
-            let button = NSButton(title: title, target: self, action: action)
-            button.toolTip = hint; button.setAccessibilityLabel(hint)
-            toolbar.addArrangedSubview(button)
-        }
+        let editorToolbar = NSStackView(views: [brand, NSView()])
+        let toolbarWidth = editorToolbar.widthAnchor.constraint(equalTo: workSplit.widthAnchor, constant: -26)
+        toolbarWidth.priority = .defaultHigh
+        editorToolbar.spacing = 16
+        toolbar.addArrangedSubview(editorToolbar)
         let examples = NSPopUpButton()
         examples.addItem(withTitle: "Examples")
         examples.addItems(withTitles: Assets.examples.map { $0.title })
         examples.target = self; examples.action = #selector(selectExample(_:))
-        toolbar.addArrangedSubview(examples)
+        editorToolbar.addArrangedSubview(examples)
         toolbar.addArrangedSubview(NSView())
         let reference = NSButton(title: "Reference", target: self, action: #selector(toggleGuide(_:)))
         reference.image = NSImage(systemSymbolName: "book", accessibilityDescription: "Reference guide")
@@ -280,6 +278,19 @@ final class EditorWindow: NSWindowController, NSTextViewDelegate, NSWindowDelega
         editorTitle.font = .systemFont(ofSize: 10, weight: .bold); editorTitle.textColor = .secondaryLabelColor
         let editorBar = NSStackView(views: [editorTitle, NSView()])
         editorBar.spacing = 6; editorBar.edgeInsets = NSEdgeInsets(top: 7, left: 14, bottom: 7, right: 10)
+        let fontLabel = NSTextField(labelWithString: "Font")
+        fontLabel.font = .systemFont(ofSize: 11)
+        let fontControls = NSStackView(views: [fontLabel])
+        fontControls.spacing = 6
+        for (title, action, hint) in [("−", #selector(smallerText(_:)), "Decrease editor font size"), ("+", #selector(biggerText(_:)), "Increase editor font size")] {
+            let button = NSButton(title: title, target: self, action: action)
+            button.controlSize = .small; button.font = .systemFont(ofSize: 12)
+            button.widthAnchor.constraint(equalToConstant: 26).isActive = true
+            button.toolTip = hint; button.setAccessibilityLabel(hint)
+            fontControls.addArrangedSubview(button)
+        }
+        editorBar.addArrangedSubview(fontControls)
+        editorBar.setCustomSpacing(24, after: fontControls)
         for (title, action) in [("Undo", #selector(undoEditor(_:))), ("Redo", #selector(redoEditor(_:))), ("Copy", #selector(copyEditor(_:))), ("Paste", #selector(pasteEditor(_:)))] {
             let button = NSButton(title: title, target: self, action: action)
             button.controlSize = .small; button.font = .systemFont(ofSize: 11)
@@ -308,6 +319,7 @@ final class EditorWindow: NSWindowController, NSTextViewDelegate, NSWindowDelega
         status.edgeInsets = NSEdgeInsets(top: 6, left: 15, bottom: 6, right: 15)
         for view in [toolbar, mainSplit, status] { view.translatesAutoresizingMaskIntoConstraints = false; root.addSubview(view) }
         NSLayoutConstraint.activate([
+            toolbarWidth,
             toolbar.heightAnchor.constraint(equalToConstant: 48), status.heightAnchor.constraint(equalToConstant: 26),
             toolbar.leadingAnchor.constraint(equalTo: root.leadingAnchor), toolbar.trailingAnchor.constraint(equalTo: root.trailingAnchor), toolbar.topAnchor.constraint(equalTo: root.topAnchor),
             mainSplit.leadingAnchor.constraint(equalTo: root.leadingAnchor), mainSplit.trailingAnchor.constraint(equalTo: root.trailingAnchor), mainSplit.topAnchor.constraint(equalTo: toolbar.bottomAnchor), mainSplit.bottomAnchor.constraint(equalTo: status.topAnchor),

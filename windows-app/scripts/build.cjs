@@ -21,7 +21,7 @@ async function main(){
  const stage=path.join(out,'app');await fs.rm(stage,{recursive:true,force:true});await fs.mkdir(stage);await fs.cp(path.join(root,'app'),stage,{recursive:true});await fs.writeFile(path.join(stage,'package.json'),JSON.stringify({...pkg,main:'main.cjs',devDependencies:undefined,scripts:undefined}));
  const icon=path.join(out,'Studio.ico');const python=process.env.FIM_BUILD_PYTHON||'python3';
  execFileSync(python,['-c','from PIL import Image; import sys; Image.open(sys.argv[1]).save(sys.argv[2],sizes=[(16,16),(32,32),(48,48),(64,64),(128,128),(256,256)])',path.join(root,'assets/Studio.png'),icon]);
- const [appPath]=await packager({dir:stage,out,name:'FiM++ Studio',executableName:'FiM++ Studio',appVersion:pkg.version,buildVersion:'7',platform:'win32',arch:'x64',electronVersion:pkg.devDependencies.electron,asar:true,overwrite:true,prune:false,extraResource:[resources],icon,win32metadata:{CompanyName:'RyogaTwo',FileDescription:'FiM++ Studio',ProductName:'FiM++ Studio',InternalName:'FiMStudio',OriginalFilename:'FiM++ Studio.exe'},windowsSign:undefined});
+ const [appPath]=await packager({dir:stage,out,name:'FiM++ Studio',executableName:'FiM++ Studio',appVersion:pkg.version,buildVersion:'8',platform:'win32',arch:'x64',electronVersion:pkg.devDependencies.electron,asar:true,overwrite:true,prune:false,extraResource:[resources],icon,win32metadata:{CompanyName:'RyogaTwo',FileDescription:'FiM++ Studio',ProductName:'FiM++ Studio',InternalName:'FiMStudio',OriginalFilename:'FiM++ Studio.exe'},windowsSign:undefined});
  const signing=process.env.FIM_WINDOWS_SIGN==='1';
  if(signing)await require('./sign-windows.cjs')({path:path.join(appPath,'FiM++ Studio.exe')});
  process.env.CSC_IDENTITY_AUTO_DISCOVERY='false';

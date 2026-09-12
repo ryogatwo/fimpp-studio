@@ -46,7 +46,7 @@ Create a letter, write your code, and choose Run (⌘R). You can run before savi
 
 # Create, open, and save
 Launch and New Letter (⌘N) create a blank document. Choose an example from the Examples menu if you want a starting point. Open (⌘O) opens a .fimpp or .fpp UTF-8 text file. Save (⌘S) writes it; Save As (⇧⌘S) writes a new copy. Each letter has its own window, undo history, and console. Standard macOS document autosave and unsaved-change prompts apply.
-Use Edit → Find (⌘F) to find or replace text. Use the A− / A+ toolbar buttons or View → Larger Text / Smaller Text to resize the editor (10–40 points). Your chosen size is remembered for new letters and the next launch. Straight quotes are preserved; macOS smart-quote substitution is disabled for code.
+Use Edit → Find (⌘F) to find or replace text. Use the Font − / + buttons in the EDITOR header or View → Larger Text / Smaller Text to resize the editor (10–40 points). Your chosen size is remembered for new letters and the next launch. Straight quotes are preserved; macOS smart-quote substitution is disabled for code.
 View → Appearance offers Follow System, Light, and Dark. Your choice applies to the editor, console, and reference guide and is remembered after quitting.
 The Examples menu includes all 20 bundled letters and opens an editable copy, so you can experiment without modifying the bundled examples.
 
