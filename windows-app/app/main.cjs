@@ -5,9 +5,9 @@ const {LetterRunner}=require('./runner.cjs');
 const resourceRoot=process.env.FIM_STUDIO_RESOURCES||path.join(process.resourcesPath,'StudioResources');
 const java=process.env.FIM_STUDIO_JAVA||path.join(resourceRoot,'runtime','bin','java.exe');
 const jar=path.join(resourceRoot,'Fimpp.jar');
-let win,docs=[],nextId=0,active=null,allowClose=false,theme='system',catalog=[],settingsPath,quitting=false,settingsWrite=Promise.resolve();
+let win,docs=[],nextId=0,active=null,allowClose=false,theme='system',fontSize=14,catalog=[],settingsPath,quitting=false,settingsWrite=Promise.resolve();
 const send=(channel,value)=>{if(win&&!win.isDestroyed())win.webContents.send(channel,value);};
-const snapshot=()=>({docs:docs.map(d=>({id:d.id,name:d.file?path.basename(d.file):d.name,file:d.file,text:d.text,dirty:d.text!==d.saved,running:!!d.runner})),active,theme,dark:nativeTheme.shouldUseDarkColors});
+const snapshot=()=>({docs:docs.map(d=>({id:d.id,name:d.file?path.basename(d.file):d.name,file:d.file,text:d.text,dirty:d.text!==d.saved,running:!!d.runner})),active,theme,fontSize,dark:nativeTheme.shouldUseDarkColors});
 function changed(){send('state',snapshot());if(win)win.setTitle((docs.find(d=>d.id===active)?.name||'Letter')+' — FiM++ Studio');}
 function newLetter(text='',name){const doc={id:++nextId,name:name||'Untitled '+nextId,file:null,text,saved:text?'':text,runner:null};docs.push(doc);active=doc.id;changed();return doc;}
 const getDoc=id=>{const d=docs.find(d=>d.id===id);if(!d)throw Error('Letter not found');return d;};
@@ -18,7 +18,7 @@ async function saveDoc(doc,saveAs=false){let file=doc.file;if(saveAs||!file){con
 async function confirmClose(doc){if(doc.text===doc.saved)return true;const {response}=await dialog.showMessageBox(win,{type:'question',message:'Save changes to '+(doc.file?path.basename(doc.file):doc.name)+'?',buttons:['Save','Discard','Cancel'],defaultId:0,cancelId:2});return response===0?saveDoc(doc):response===1;}
 async function closeDoc(id){const doc=getDoc(id);if(!await confirmClose(doc))return;doc.runner?.stop();docs=docs.filter(d=>d!==doc);if(active===id)active=docs.at(-1)?.id||null;if(!docs.length)newLetter();else changed();}
 async function closeAll(){if(quitting)return;quitting=true;try{for(const doc of docs)if(!await confirmClose(doc))return;for(const d of docs)d.runner?.stop();await settingsWrite;allowClose=true;win.close();}finally{quitting=false;}}
-function setTheme(value){if(!['system','light','dark'].includes(value))throw Error('Unknown appearance');theme=value;nativeTheme.themeSource=value;const data=JSON.stringify({theme})+'\n';settingsWrite=settingsWrite.then(()=>fs.writeFile(settingsPath,data)).catch(e=>showError(e));buildMenu();changed();}
+function setTheme(value){if(!['system','light','dark'].includes(value))throw Error('Unknown appearance');theme=value;nativeTheme.themeSource=value;const data=JSON.stringify({theme,fontSize})+'\n';settingsWrite=settingsWrite.then(()=>fs.writeFile(settingsPath,data)).catch(e=>showError(e));buildMenu();changed();}
 const showError=e=>dialog.showErrorBox('FiM++ Studio',e.message||String(e));
 const action=name=>send('command',name);
 function buildMenu(){Menu.setApplicationMenu(Menu.buildFromTemplate([
@@ -38,6 +38,7 @@ async function command(name,arg){switch(name){
  case 'example':{const e=catalog.find(e=>e.file===arg);if(!e)throw Error('Unknown example');newLetter(await fs.readFile(path.join(resourceRoot,'Examples',e.file+'.fimpp'),'utf8'),e.title);return;}
  case 'run':{const d=getDoc(arg);if(d.runner)return;const runner=new LetterRunner({java,jar,onOutput:text=>send('output',{id:d.id,text}),onEnd:result=>{d.runner=null;send('ended',{id:d.id,...result});changed();}});d.runner=runner;send('started',{id:d.id});changed();await runner.start(d.text,d.file?path.dirname(d.file):undefined);return;}
  case 'stop':getDoc(arg).runner?.stop();return;case 'input':getDoc(arg.id).runner?.input(arg.text);return;case 'eof':getDoc(arg).runner?.eof();return;
+ case 'fontSize':if(!Number.isInteger(arg)||arg<10||arg>40)throw Error('Invalid font size');fontSize=arg;settingsWrite=settingsWrite.then(()=>fs.writeFile(settingsPath,JSON.stringify({theme,fontSize})+'\n'));await settingsWrite;return;
  case 'theme':setTheme(arg);return;
  default:throw Error('Unknown command');}}
 app.setName('FiM++ Studio');
@@ -45,7 +46,7 @@ if(!process.argv.includes('--self-test')&&!app.requestSingleInstanceLock())app.q
  app.on('second-instance',(_e,args)=>{const file=args.find(a=>/\.(fimpp|fpp)$/i.test(a));if(file)openFile(path.resolve(file)).catch(showError);if(win){if(win.isMinimized())win.restore();win.focus();}});
  app.whenReady().then(async()=>{
   if(process.argv.includes('--self-test')){const {selfTest}=require('./self-test.cjs');try{await selfTest({resourceRoot,java,jar,args:process.argv});app.exit(0);}catch(e){console.error(e);app.exit(1);}return;}
-  settingsPath=path.join(app.getPath('userData'),'settings.json');await fs.mkdir(path.dirname(settingsPath),{recursive:true});try{theme=JSON.parse(await fs.readFile(settingsPath,'utf8')).theme;}catch{}if(!['system','light','dark'].includes(theme))theme='system';nativeTheme.themeSource=theme;
+  settingsPath=path.join(app.getPath('userData'),'settings.json');await fs.mkdir(path.dirname(settingsPath),{recursive:true});try{const saved=JSON.parse(await fs.readFile(settingsPath,'utf8'));theme=saved.theme;if(Number.isInteger(saved.fontSize)&&saved.fontSize>=10&&saved.fontSize<=40)fontSize=saved.fontSize;}catch{}if(!['system','light','dark'].includes(theme))theme='system';nativeTheme.themeSource=theme;
   catalog=JSON.parse(await fs.readFile(path.join(resourceRoot,'Examples/catalog.json'),'utf8'));
   win=new BrowserWindow({width:1280,height:860,minWidth:850,minHeight:620,title:'FiM++ Studio',backgroundColor:nativeTheme.shouldUseDarkColors?'#242229':'#faf9fc',webPreferences:{preload:path.join(__dirname,'preload.cjs'),contextIsolation:true,nodeIntegration:false,sandbox:true}});
   win.webContents.setWindowOpenHandler(()=>({action:'deny'}));win.webContents.on('will-navigate',e=>e.preventDefault());win.webContents.session.setPermissionRequestHandler((_wc,_permission,callback)=>callback(false));

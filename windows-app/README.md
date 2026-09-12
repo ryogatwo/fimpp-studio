@@ -1,4 +1,4 @@
-# FiM++ Studio 1.2.1 for Windows
+# FiM++ Studio 1.2.2 for Windows
 
 Created by: RyogaTwo
 
@@ -6,10 +6,10 @@ A standalone Windows x64 desktop edition of FiM++ Studio. It includes the same m
 
 ## Run or install
 
-- **FiMpp-Studio-Portable-1.2.1-x64.exe**: a single EXE that extracts its bundled runtime to a temporary directory and launches Studio without installation. Keep your letters in your own folder. Appearance preferences are saved in the Windows user profile.
-- **FiMpp-Studio-Setup-1.2.1-x64.exe**: the installer, with destination selection, Start menu/Desktop shortcuts, `.fimpp`/`.fpp` file associations, and an uninstaller. Uninstalling preserves user settings and letters.
+- **FiMpp-Studio-Portable-1.2.2-x64.exe**: a single EXE that extracts its bundled runtime to a temporary directory and launches Studio without installation. Keep your letters in your own folder. Appearance preferences are saved in the Windows user profile.
+- **FiMpp-Studio-Setup-1.2.2-x64.exe**: the installer, with destination selection, Start menu/Desktop shortcuts, `.fimpp`/`.fpp` file associations, and an uninstaller. Uninstalling preserves user settings and letters.
 
-These two executables are intentionally unsigned, as requested. The architecture is x64 for Windows 10/11; Windows on ARM can run the x64 build through Windows emulation. See the validation reports for the exact tested OS and architecture.
+Official release executables are signed and timestamped with Azure Artifact Signing. The architecture is x64 for Windows 10/11; Windows on ARM can run the x64 build through Windows emulation. See the validation reports for the exact tested OS and architecture.
 
 ## Use
 
@@ -43,3 +43,11 @@ For Windows package validation, run `scripts/validate-windows.cmd` (or `scripts/
 ## Licenses
 
 The editor is distributed under GPLv3 or later with this project. FiM++ is copyright Karol Stasiak and contributors. Eclipse Temurin is GPLv2 with the Classpath Exception; its legal files ship inside the runtime. Electron is MIT licensed and includes Chromium/third-party notices. The full source archive accompanies the release.
+
+## Font size
+
+Use A− / A+ in the toolbar or View → Smaller Text / Larger Text (10–40 pixels). The size is remembered across tabs and launches. Reference body text is now 15 pixels and code examples are 13 pixels.
+
+## Signing
+
+See [Windows signing setup](SIGNING.md). Official 1.2.2 builds use Azure Artifact Signing for the app, portable launcher, installer and uninstaller.

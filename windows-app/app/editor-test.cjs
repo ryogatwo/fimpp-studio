@@ -5,7 +5,7 @@ async function editorTest(){
  const sample='Dear Princess Celestia: Colors.\nToday I learned:\n    I said "P.S. (42) <hello>".\n    I did this 3 times:\n        I wrote "Hello".\n    That\'s what I did.\nYour faithful student, Twilight Sparkle.\nPSS End comment';
  const state={docs:[{id:1,name:'Syntax test',text:sample,dirty:false}],active:1,dark:false,catalog:[],guide:'about:blank'};
  const win=new BrowserWindow({show:false,width:1000,height:750,webPreferences:{preload:path.join(__dirname,'preload.cjs'),sandbox:true,contextIsolation:true,nodeIntegration:false}});
- ipcMain.handle('studio',(event,name,arg)=>{if(event.sender!==win.webContents)throw Error('Unexpected editor test caller');if(name==='init')return state;if(name==='update'){state.docs[0].text=arg.text;return true;}throw Error('Unexpected editor test action '+name);});
+ ipcMain.handle('studio',(event,name,arg)=>{if(event.sender!==win.webContents)throw Error('Unexpected editor test caller');if(name==='init')return state;if(name==='fontSize'){state.fontSize=arg;return true;}if(name==='update'){state.docs[0].text=arg.text;return true;}throw Error('Unexpected editor test action '+name);});
  try{
  await win.loadFile(path.join(__dirname,'index.html'));
  return await win.webContents.executeJavaScript(`(async()=>{
@@ -14,6 +14,8 @@ async function editorTest(){
  const area=document.querySelector('.source'),paint=document.querySelector('.syntax-paint');
  assert(area&&paint,'Editor and coloring layer loaded');
  const original=area.value;
+ document.querySelector('#larger').click();await new Promise(r=>setTimeout(r,50));assert(getComputedStyle(area).fontSize==='15px','A+ enlarges editor');
+ document.querySelector('#smaller').click();await new Promise(r=>setTimeout(r,50));assert(getComputedStyle(area).fontSize==='14px','A− reduces editor');
  assert(paint.textContent===original+'\\n','Coloring preserves source exactly');
  assert(paint.querySelectorAll('.syntax-keyword').length>=6,'Keywords have color spans');
  assert(paint.querySelector('.syntax-string').textContent==='"P.S. (42) <hello>"','String protects comment markers and HTML');

@@ -2,7 +2,7 @@ const fs=require('node:fs/promises'),path=require('node:path'),crypto=require('n
 const {execFile}=require('node:child_process');const {promisify}=require('node:util');const exec=promisify(execFile);
 const {LetterRunner}=require('./runner.cjs');
 async function selfTest({resourceRoot,java,jar,args}){
- const report={platform:process.platform,architecture:process.arch,version:'1.2.1',passed:[],failures:[]};
+ const report={platform:process.platform,architecture:process.arch,version:'1.2.2',passed:[],failures:[]};
  const outputArg=args.find(a=>a.startsWith('--report='));const reportPath=outputArg?outputArg.slice(9):path.join(require('node:os').tmpdir(),'FiM-Studio-Windows-validation.json');
  const check=async(name,fn)=>{try{await fn();report.passed.push(name);}catch(e){report.failures.push({name,error:e.message});}};
  await check('Syntax coloring and protected comments/strings',async()=>{const {tokens,html}=require('./syntax.js');assert.deepEqual(tokens('I said "P.S. (42)".\nPSS comment').map(t=>t.kind),['keyword','string','comment']);assert(!html('"<script>"').includes('<script>'));});

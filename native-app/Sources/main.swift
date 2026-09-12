@@ -208,6 +208,11 @@ final class EditorWindow: NSWindowController, NSTextViewDelegate, NSWindowDelega
         brand.font = .systemFont(ofSize: 14, weight: .semibold)
         toolbar.addArrangedSubview(brand)
         toolbar.addArrangedSubview(NSView())
+        for (title, action, hint) in [("A−", #selector(smallerText(_:)), "Decrease editor font size"), ("A+", #selector(biggerText(_:)), "Increase editor font size")] {
+            let button = NSButton(title: title, target: self, action: action)
+            button.toolTip = hint; button.setAccessibilityLabel(hint)
+            toolbar.addArrangedSubview(button)
+        }
         let examples = NSPopUpButton()
         examples.addItem(withTitle: "Examples")
         examples.addItems(withTitles: Assets.examples.map { $0.title })
@@ -298,7 +303,7 @@ final class EditorWindow: NSWindowController, NSTextViewDelegate, NSWindowDelega
 
     func setupEditor() {
         editor.isRichText = false; editor.allowsUndo = true; editor.isEditable = true
-        editor.font = .monospacedSystemFont(ofSize: 14, weight: .regular)
+        editor.font = .monospacedSystemFont(ofSize: CGFloat(min(40, max(10, UserDefaults.standard.integer(forKey: "EditorFontSize") == 0 ? 14 : UserDefaults.standard.integer(forKey: "EditorFontSize")))), weight: .regular)
         editor.textColor = .textColor; editor.backgroundColor = .textBackgroundColor
         editor.textContainerInset = NSSize(width: 12, height: 16)
         editor.isAutomaticQuoteSubstitutionEnabled = false
@@ -492,8 +497,17 @@ final class EditorWindow: NSWindowController, NSTextViewDelegate, NSWindowDelega
         let range = text.lineRange(for: NSRange(location: min(start, text.length), length: 0))
         editor.setSelectedRange(range); editor.scrollRangeToVisible(range); window?.makeFirstResponder(editor)
     }
-    @objc func biggerText(_ sender: Any?) { editor.font = .monospacedSystemFont(ofSize: min(32, (editor.font?.pointSize ?? 14)+1), weight: .regular); highlight() }
-    @objc func smallerText(_ sender: Any?) { editor.font = .monospacedSystemFont(ofSize: max(10, (editor.font?.pointSize ?? 14)-1), weight: .regular); highlight() }
+    func resizeEditor(_ delta: CGFloat) {
+        let size = min(40, max(10, (editor.font?.pointSize ?? 14) + delta))
+        let undo = editor.undoManager, enabled = editor.undoManager?.isUndoRegistrationEnabled == true
+        if enabled { undo?.disableUndoRegistration() }
+        editor.font = .monospacedSystemFont(ofSize: size, weight: .regular)
+        if enabled { undo?.enableUndoRegistration() }
+        UserDefaults.standard.set(Int(size), forKey: "EditorFontSize")
+        highlight()
+    }
+    @objc func biggerText(_ sender: Any?) { resizeEditor(1) }
+    @objc func smallerText(_ sender: Any?) { resizeEditor(-1) }
     func windowWillClose(_ notification: Notification) {
         stopProgram(nil); highlightTimer?.invalidate()
         if let observer = scrollObserver { NotificationCenter.default.removeObserver(observer) }
