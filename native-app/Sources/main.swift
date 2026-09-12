@@ -358,17 +358,9 @@ final class EditorWindow: NSWindowController, NSTextViewDelegate, NSWindowDelega
         let range = NSRange(location: 0, length: storage.length)
         storage.beginEditing()
         storage.addAttribute(.foregroundColor, value: NSColor.textColor, range: range)
-        let patterns: [(String, NSColor)] = [
-            (#"(?i)\b(dear princess celestia|today i learned|your faithful student|did you know|i learned|that's about|that's what i did|i did this while|i did this|in the end|it didn't work|when|i said|i wrote|i sang|i enchanted|i asked|i woke up|i found a book|i read about)\b"#, .systemPurple),
-            (#"\b[0-9]+(?:st|nd|rd|th)?\b"#, .systemOrange),
-            (#""[^"]*""#, .systemGreen),
-            (#"\([^)]*\)|(?im)(?:^|(?<=\s))(?:(?:p\.)+s\.|p(?:\.?s)+\.|p+s+(?=\s|$))[^\r\n]*|(?i:by the way)[^.!?]*[.!?]"#, .secondaryLabelColor)
-        ]
-        // Color only; no replacements or changes to the user's source.
-        for (pattern, color) in patterns {
-            if let regex = try? NSRegularExpression(pattern: pattern) {
-                for match in regex.matches(in: editor.string, range: range) { storage.addAttribute(.foregroundColor, value: color, range: match.range) }
-            }
+        let colors: [NSColor] = [.systemGreen, .secondaryLabelColor, .systemPurple, .systemOrange]
+        for token in FiMSyntax.tokens(editor.string) {
+            storage.addAttribute(.foregroundColor, value: colors[token.kind], range: token.range)
         }
         storage.endEditing(); highlighting = false; ruler?.needsDisplay = true
     }

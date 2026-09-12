@@ -2,12 +2,12 @@ $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 $windowsRoot = Join-Path $projectRoot 'windows-app'
 $reports = Join-Path $windowsRoot 'build'
-$stage = Join-Path $env:LOCALAPPDATA 'FiMStudio-Validation-1.2.0'
+$stage = Join-Path $env:LOCALAPPDATA 'FiMStudio-Validation-1.2.1'
 New-Item -ItemType Directory -Force $stage | Out-Null
-$portable = Join-Path $stage 'FiMpp-Studio-Portable-1.2.0-x64.exe'
-$installer = Join-Path $stage 'FiMpp-Studio-Setup-1.2.0-x64.exe'
-Copy-Item (Join-Path $reports 'release\FiMpp-Studio-Portable-1.2.0-x64.exe') $portable -Force
-Copy-Item (Join-Path $reports 'release\FiMpp-Studio-Setup-1.2.0-x64.exe') $installer -Force
+$portable = Join-Path $stage 'FiMpp-Studio-Portable-1.2.1-x64.exe'
+$installer = Join-Path $stage 'FiMpp-Studio-Setup-1.2.1-x64.exe'
+Copy-Item (Join-Path $reports 'release\FiMpp-Studio-Portable-1.2.1-x64.exe') $portable -Force
+Copy-Item (Join-Path $reports 'release\FiMpp-Studio-Setup-1.2.1-x64.exe') $installer -Force
 $results = [ordered]@{ platform=[Environment]::OSVersion.VersionString; architecture=$env:PROCESSOR_ARCHITECTURE; signed=$false; checks=@() }
 foreach ($exe in @($portable,$installer)) {
     $signature = Get-AuthenticodeSignature $exe

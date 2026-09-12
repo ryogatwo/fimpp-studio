@@ -1,4 +1,4 @@
-# FiM++ Studio 1.2.0
+# FiM++ Studio 1.2.1
 
 Created by: RyogaTwo
 
@@ -21,6 +21,10 @@ Open **FiM++ Studio.app**, or drag it into Applications first. No Java, Python, 
 - Relative program paths resolve from the saved file's folder, or a temporary folder for an unsaved letter.
 
 The guide covers this compiler's supported original dialect. It explicitly documents the remaining Sparkle 1.0 gaps. This app does not add a new Sparkle language mode.
+
+## Version 1.2.1
+
+Syntax coloring now uses non-overlapping string, comment, keyword and number tokens. Comment markers inside strings stay green; PS/PSS, parenthesis, By the way and because comments are recognized. Windows uses the same token rules, tested against every bundled example.
 
 ## Version 1.2.0
 

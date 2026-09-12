@@ -1,0 +1,10 @@
+/* Non-overlapping lexical coloring; offsets use UTF-16 on both platforms. */
+(function(root){
+'use strict';
+const pattern = "(\"[^\"]*(?:\"|$))|(\\([^)]*(?:\\)|$)|(?<![A-Za-z\\x27-])(?:(?:p\\.)+s\\.|p(?:\\.?s)+\\.|p+s+:?(?=\\s|$))[^\\r\\n]*|\\bby\\s+the\\s+way\\b[^.!?]*(?:[.!?]|$)|,\\s*because\\b[^.!?]*(?:[.!?]|$))|(\\b(?:dear\\s+princess\\s+celestia|today\\s+i\\s+learned|your\\s+faithful\\s+student|did\\s+you\\s+know|i\\s+learned|that's\\s+about|that's\\s+what\\s+i\\s+did|i\\s+did\\s+this\\s+while|i\\s+did\\s+this\\s+instead|i\\s+did\\s+this|in\\s+the\\s+end|it\\s+didn't\\s+work|but\\s+i\\s+knew\\s+why|when|i\\s+quickly\\s+said|i\\s+quickly\\s+wrote|i\\s+quickly\\s+sang|i\\s+said|i\\s+wrote|i\\s+sang|i\\s+enchanted|i\\s+asked|i\\s+told|i\\s+woke\\s+up|i\\s+found\\s+a\\s+book|i\\s+read\\s+about|i\\s+scribbled|i\\s+noted|i\\s+gave|i\\s+sold|i\\s+took|i\\s+got|i\\s+stole|i\\s+also\\s+did|i\\s+also\\s+made|i\\s+also\\s+caused|i\\s+did|i\\s+made|i\\s+caused|yes|and|either|or|not|is|are|likes|like|got|more|less|fewer|with|of\\s+each|everything|everypony|anything|anypony)\\b)|(\\b(?:[0-9]+(?:st|nd|rd|th)?|zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth)\\b)";
+const kinds = ['string','comment','keyword','number'];
+function tokens(text){const regex=new RegExp(pattern,'gi'), result=[];let match;while((match=regex.exec(text)))result.push({start:match.index,length:match[0].length,kind:kinds[match.slice(1).findIndex(x=>x!==undefined)]});return result;}
+function escape(text){return text.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
+function html(text){let end=0,result='';for(const token of tokens(text)){result+=escape(text.slice(end,token.start))+'<span class="syntax-'+token.kind+'">'+escape(text.slice(token.start,token.start+token.length))+'</span>';end=token.start+token.length;}return result+escape(text.slice(end))+'\n';}
+const api={tokens,html};if(typeof module!=='undefined')module.exports=api;else root.FiMSyntax=api;
+})(globalThis);

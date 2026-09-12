@@ -54,5 +54,5 @@ if(!process.argv.includes('--self-test')&&!app.requestSingleInstanceLock())app.q
   nativeTheme.on('updated',()=>changed());buildMenu();newLetter();await win.loadFile(path.join(__dirname,'index.html'));
   const file=process.argv.find(a=>/\.(fimpp|fpp)$/i.test(a));if(file){docs=[];await openFile(path.resolve(file));}
  }).catch(e=>{showError(e);app.exit(1);});
- app.on('window-all-closed',()=>app.quit());
+ app.on('window-all-closed',()=>{if(!process.argv.includes('--self-test'))app.quit();});
 }
